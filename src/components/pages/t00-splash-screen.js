@@ -19,12 +19,11 @@ export default SplashScreen = () => (
 
 const styles = StyleSheet.create({
     image: {
-        height: '50%',
-        top: '20%',
+        height: 400,
+        marginTop: 100
     },
     loading: {
         alignSelf: 'center',
-        position: 'absolute',
-        bottom: '5%'
+        marginTop: 50
     }
 });

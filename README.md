@@ -5,7 +5,7 @@
 
 **Server:** Firebase
 
-## Run Locally  
+## Run Locally [(configuração)](https://reactnative.dev/docs/environment-setup)
 Clone o projeto
 ~~~bash  
 cd caminho/da/pasta/do/projeto
@@ -34,7 +34,6 @@ yarn ios
 ~~~
 
 ## Roadmap  
-- Additional browser support  
 + Projeto React Native versões:
     + react@18.2.0
     + react-native@0.71.1
@@ -48,5 +47,15 @@ yarn ios
         yarn add @react-navigation/native @react-navigation/native-stack
         yarn add react-native-screens react-native-safe-area-context
         ~~~
-
-- Add more integrations  
++ Adicionando componentes de interface do usuário de login
+    + Comando usado:
+        ~~~bash  
+        yarn add react-native-animatable react-native-image-crop-picker react-native-modal react-native-masked-text react-native-toast-message react-native-keyboard-aware-scroll-view
+        ~~~
+    + Documentação:
+        + [react-native-animatable](https://github.com/oblador/react-native-animatable);
+        + [react-native-image-crop-picker](https://github.com/ivpusic/react-native-image-crop-picker);
+        + [react-native-modal](https://github.com/react-native-modal/react-native-modal);
+        + [react-native-masked-text](https://github.com/bhrott/react-native-masked-text);
+        + [react-native-toast-message](https://github.com/calintamas/react-native-toast-message);
+        + [react-native-keyboard-aware-scroll-view](https://github.com/APSL/react-native-keyboard-aware-scroll-view);

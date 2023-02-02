@@ -11,7 +11,7 @@ export default LoginPage = () => {
                 alignItems: 'center',
                 backgroundColor: '#FDE93A'
             }}>
-            <Text>Login! Edit me! 🎉</Text>
+            <Text>Home! Edit me! 🎉</Text>
         </View>
     );
 }

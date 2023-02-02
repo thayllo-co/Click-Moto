@@ -49,7 +49,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Autorizar o uso da câmera/galeria para definir a foto do perfil do usuário.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Autorizar o uso da câmera/galeria para definir a foto do perfil do usuário</string>
 </dict>
 </plist>

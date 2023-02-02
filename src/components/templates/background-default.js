@@ -1,5 +1,6 @@
 import React from 'react';
-import { KeyboardAvoidingView, SafeAreaView, StatusBar, StyleSheet, View, Platform } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import colors from '../../theme/colors';
 import LoadingIndicator from '../atoms/progress-indicator';
@@ -12,30 +13,23 @@ export default BackgroundDefault = props => (
 
         {props.isLoading && <LoadingIndicator style={styles.loading} />}
 
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.maxConteiner} >
+        <KeyboardAwareScrollView style={styles.maxConteiner} >
 
-            <View style={[styles.content, props.style]}>
+            <View>
 
                 {props.children}
 
             </View>
 
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
 
     </SafeAreaView>
 );
 
 const styles = StyleSheet.create({
     maxConteiner: {
-        height: '100%',
-        width: '100%',
-        backgroundColor: colors.backgroundDefault
-    },
-    content: {
         flex: 1,
-        margin: 8,
+        backgroundColor: colors.backgroundDefault
     },
     loading: {
         position: 'absolute',
