@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import BackgroundDefault from '../templates/background-default';
-import WelcomeDriver from '../organisms/welcome-driver';
-import WelcomePassenger from '../organisms/welcome-passenger';
-import Button from '../atoms/button';
 import Image from '../atoms/image';
 import logo from '../../assets/images/logo.png';
-import { DRIVER_ROLE, PASSENGER_ROLE } from '../../utils/constants';
+import WelcomeDriver from '../organisms/welcome-driver';
+import WelcomePassenger from '../organisms/welcome-passenger';
+import WelcomeAdimin from '../organisms/welcome-admin';
+import Button from '../atoms/button';
+import { ADMIN_ROLE, DRIVER_ROLE, PASSENGER_ROLE } from '../../utils/constants';
 
 
 export default Welcome = props => {
 
-    const [role, setRole] = useState(DRIVER_ROLE);
+    const role = useSelector(state => state.user?.role);
 
     return (
         <BackgroundDefault>
@@ -24,6 +26,8 @@ export default Welcome = props => {
             {(role == PASSENGER_ROLE) && <WelcomePassenger />}
 
             {(role == DRIVER_ROLE) && <WelcomeDriver />}
+
+            {(role == ADMIN_ROLE) && <WelcomeAdimin />}
 
             <Button size="lg" onPress={() => props.navigation.navigate('Home')}>Continuar</Button>
 

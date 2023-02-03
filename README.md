@@ -1,11 +1,11 @@
-# Click Moto
+# Click Moto 🛵💨
 
 ## Tech Stack  
 **Client:** React Native 
 
 **Server:** Firebase
 
-## Run Locally [(configuração)](https://reactnative.dev/docs/environment-setup)
+## Executar localmente [(configuração)](https://reactnative.dev/docs/environment-setup)
 Clone o projeto
 ~~~bash  
 cd caminho/da/pasta/do/projeto
@@ -33,7 +33,7 @@ Execute o projeto no iOS
 yarn ios
 ~~~
 
-## Roadmap  
+## Log de alterações 
 + Projeto React Native versões:
     + react@18.2.0
     + react-native@0.71.1
@@ -59,3 +59,13 @@ yarn ios
         + [react-native-masked-text](https://github.com/bhrott/react-native-masked-text);
         + [react-native-toast-message](https://github.com/calintamas/react-native-toast-message);
         + [react-native-keyboard-aware-scroll-view](https://github.com/APSL/react-native-keyboard-aware-scroll-view);
++ Adicionando e configurado redux
+    + Comando usado:
+        ~~~bash  
+        yarn add redux react-redux redux-thunk 
+        ~~~
+    + Documentação:
+        + [redux](https://github.com/reduxjs/redux);
+        + [react-redux](https://github.com/reduxjs/react-redux);
+        + [redux-thunk](https://github.com/reduxjs/redux-thunk);
+        

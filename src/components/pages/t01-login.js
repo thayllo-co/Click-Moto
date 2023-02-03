@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import BackgroundDefault from '../templates/background-default';
 import Image from '../atoms/image';
@@ -9,21 +10,22 @@ import Footer from '../molecules/footer';
 import logo from '../../assets/images/logo.png';
 import RoleForm from '../organisms/role-form';
 import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { userUpdate } from '../../store/actions/user';
 
 
 export default LoginPage = props => {
 
-    const [role, setRole] = useState(null);
+    const role = useSelector(state => state.user?.role);
+    const dispatch = useDispatch();
 
     const handleSubmitPhone = phone => {
         ToastMessage("LoginPage - handleSubmitPhone", TYPE.SUCCESS);
-        console.log("LoginPage - handleSubmitPhone: ", phone);
+        dispatch(userUpdate(phone));
     }
 
     const handleSubmitCode = code => {
         ToastMessage("LoginPage - handleSubmitCode", TYPE.SUCCESS);
-        console.log("LoginPage - handleSubmitCode: ", code);
-        props.navigation.navigate('AddProfileInfo')
+        dispatch(userUpdate(code));
     }
 
     return (
@@ -38,7 +40,7 @@ export default LoginPage = props => {
                 <Text light title center size="xs" value="Entre com seu telefone" />}
 
             {!role &&
-                <RoleForm roleCallback={setRole} />}
+                <RoleForm roleCallback={role => dispatch(userUpdate({ role }))} />}
 
             {role &&
                 <PhoneForm handleSubmitPhone={handleSubmitPhone} handleSubmitCode={handleSubmitCode} />}

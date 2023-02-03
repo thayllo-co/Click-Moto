@@ -1,17 +1,20 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import BackgroundDefault from '../templates/background-default';
 import Header from '../molecules/header';
 import ProfileInfoForm from '../organisms/profile-info-form';
 import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { userUpdate } from '../../store/actions/user';
 
 
 export default AddProfileInfo = props => {
 
+    const dispatch = useDispatch();
+
     const handleSubmit = info => {
         ToastMessage("AddProfileInfo - handleSubmit", TYPE.SUCCESS);
-        console.log("AddProfileInfo - handleSubmit: ", info);
-        props.navigation.navigate('RegisterMotorcycle')
+        dispatch(userUpdate(info));
     }
 
     return (
