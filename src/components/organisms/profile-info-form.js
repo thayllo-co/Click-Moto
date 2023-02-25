@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import InputForm from '../molecules/input-form';
 import PhotoForm from '../molecules/photo-form';
 import Button from '../atoms/button';
 import { BIRTH_LENGTH, CPF_LENGTH, EMAIL_LENGTH, MAX_INPUT_LINE_LENGTH, MIN_INPUT_LENGTH } from '../../utils/constants';
 import { ToastMessage, TYPE } from '../atoms/toast-message';
-
+import PhotoPicker from './photo-picker';
+import { saveUserProfilePhoto } from '../../store/actions/user';
 
 
 export default LoginForm = props => {
 
+    const dispatch = useDispatch();
+    const uid = useSelector(state => state.user?.uid);
+    const photoURL = useSelector(state => state.user?.photoURL);
+
     const [name, setName] = useState(null);
     const [surname, setSurname] = useState(null);
     const [email, setEmail] = useState(null);
-    const [photo, setPhoto] = useState(null);
     const [cpf, setCPF] = useState(null);
     const [birthDate, setBirthDate] = useState(null);
     const [isPhotoPickerVisible, setIsPhotoPickerVisible] = useState(false);
@@ -22,17 +27,24 @@ export default LoginForm = props => {
     togglePhotoPicker = () => setIsPhotoPickerVisible(!isPhotoPickerVisible);
 
     const validateForm = () => {
-        if (name && surname && email && photo && cpf && birthDate) {
-            props.submit({ name, surname, email, photo, cpf, birthDate });
+        if (name && surname && email && photoURL && cpf && birthDate) {
+            props.handleSubmitData({ name, surname, email, photoURL, cpf, birthDate });
         } else {
-            ToastMessage("Informações inválidas, corrija-as e tente novamente.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
         }
     }
+
+    const handleSubmitPhoto = photoPath => {
+        dispatch(saveUserProfilePhoto(uid, photoPath));
+    }
+
 
     return (
         <View style={styles.container}>
 
-            <PhotoForm photo={photo} savePhoto={setPhoto} />
+            <PhotoForm photoURL={photoURL} openPhotoPicker={togglePhotoPicker} />
+
+            <PhotoPicker isVisible={isPhotoPickerVisible} toggler={togglePhotoPicker} handleSubmitPhoto={handleSubmitPhoto} />
 
             <InputForm
                 label="Nome"

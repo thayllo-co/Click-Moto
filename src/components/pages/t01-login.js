@@ -9,41 +9,44 @@ import PhoneForm from '../organisms/phone-form';
 import Footer from '../molecules/footer';
 import logo from '../../assets/images/logo.png';
 import RoleForm from '../organisms/role-form';
-import { ToastMessage, TYPE } from '../atoms/toast-message';
-import { userUpdate } from '../../store/actions/user';
+import { confirmUserPhone, signInUser, uploadUserData } from '../../store/actions/user';
 
 
 export default LoginPage = props => {
 
-    const role = useSelector(state => state.user?.role);
     const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.user?.isLoading);
+    const confirmation = useSelector(state => state.user?.confirmation);
+    const uid = useSelector(state => state.user?.uid);
 
-    const handleSubmitPhone = phone => {
-        ToastMessage("LoginPage - handleSubmitPhone", TYPE.SUCCESS);
-        dispatch(userUpdate(phone));
+    const handleSubmitPhone = async phone => {
+        dispatch(signInUser("+55" + phone));
     }
 
-    const handleSubmitCode = code => {
-        ToastMessage("LoginPage - handleSubmitCode", TYPE.SUCCESS);
-        dispatch(userUpdate(code));
+    const handleSubmitCode = async code => {
+        dispatch(confirmUserPhone(confirmation, code));
+    }
+
+    const handleSubmitRole = async role => {
+        dispatch(uploadUserData(uid, { role }));
     }
 
     return (
-        <BackgroundDefault>
+        <BackgroundDefault isLoading={isLoading}>
 
             <Image source={logo} style={styles.image} />
 
-            {!role &&
-                <Text light title center size="xs" value="Escolha como deseja continuar" />}
-
-            {role &&
+            {!uid &&
                 <Text light title center size="xs" value="Entre com seu telefone" />}
 
-            {!role &&
-                <RoleForm roleCallback={role => dispatch(userUpdate({ role }))} />}
-
-            {role &&
+            {!uid &&
                 <PhoneForm handleSubmitPhone={handleSubmitPhone} handleSubmitCode={handleSubmitCode} />}
+
+            {uid &&
+                <Text light title center size="xs" value="Escolha como deseja continuar" />}
+
+            {uid &&
+                <RoleForm handleSubmitRole={role => handleSubmitRole(role)} />}
 
             <Footer navigation={props.navigation} />
 

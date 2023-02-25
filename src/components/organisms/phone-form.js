@@ -17,19 +17,18 @@ export default PhoneForm = props => {
 
     submitFullPhone = () => {
         if (ddd && phone) {
-            props.handleSubmitPhone({ phone: ddd + phone });
+            props.handleSubmitPhone(ddd + phone);
             setIsVerificationCodeVisible(true);
         } else {
-            ToastMessage("Informações inválidas, corrija-as e tente novamente.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
         }
     }
 
     submitVerificationCode = () => {
         if (verificationCode) {
-            props.handleSubmitCode({ verificationCode });
-            setIsVerificationCodeVisible(false);
+            props.handleSubmitCode(verificationCode);
         } else {
-            ToastMessage("Informações inválidas, corrija-as e tente novamente.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
         }
     }
 

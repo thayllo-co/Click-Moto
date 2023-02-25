@@ -17,9 +17,9 @@ export default MotorcycleForm = props => {
 
     const validateForm = () => {
         if (brand && model && color && plate) {
-            props.submit({ brand, model, color, plate });
+            props.handleSubmitMotorcycle({ brand, model, color, plate });
         } else {
-            ToastMessage("Informações inválidas, corrija-as e tente novamente.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
         }
     }
 

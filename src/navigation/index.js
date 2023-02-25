@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SplashScreen from '../components/pages/t00-splash-screen';
 import LoginPage from '../components/pages/t01-login';
@@ -15,6 +15,10 @@ import AdminNavigationStack from './admin';
 import PassengerNavigationStack from './passenger';
 import DriverNavigationStack from './driver';
 
+import { authOnAuthStateChanged } from '../store/services/auth';
+import { checkUserData, userLogout } from '../store/actions/user';
+import { checkLogsFolder, log } from '../utils/logging';
+
 const Stack = createNativeStackNavigator();
 
 
@@ -22,17 +26,25 @@ export default AppNavigationStack = () => {
 
     const [initializing, setInitializing] = useState(true);
 
-    const state = useSelector(state => state);
     const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("state: ", state);
-    }, [state]);
+        checkLogsFolder();
+    }, []);
 
     useEffect(() => {
-        setTimeout(() => {
-            setInitializing(false);
-        }, 5000);
+        const subscriber = authOnAuthStateChanged(
+            user => {
+                dispatch(checkUserData(user));
+                setInitializing(false);
+            },
+            () => {
+                dispatch(userLogout());
+                setInitializing(false);
+            }
+        );
+        return subscriber;
     }, []);
 
     if (initializing) return (
@@ -43,7 +55,7 @@ export default AppNavigationStack = () => {
         </NavigationContainer>
     );
 
-    if (!user?.verificationCode) {
+    if (!user?.uid || !user?.role) {
         return (
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -55,7 +67,7 @@ export default AppNavigationStack = () => {
         );
     }
 
-    if (!user?.name) {
+    if (user?.uid && user?.role && !user?.name) {
         return (
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -65,7 +77,7 @@ export default AppNavigationStack = () => {
         );
     }
 
-    if (user?.role == DRIVER_ROLE && !user?.motorcycle) {
+    if (user?.uid && user?.role && user?.name && user?.role == DRIVER_ROLE && !user?.motorcycle) {
         return (
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -75,15 +87,15 @@ export default AppNavigationStack = () => {
         );
     }
 
-    if (user?.role == PASSENGER_ROLE) {
+    if (user?.uid && user?.name && user?.role == PASSENGER_ROLE) {
         return (<PassengerNavigationStack />);
     }
 
-    if (user?.role == DRIVER_ROLE) {
+    if (user?.uid && user?.name && user?.motorcycle && user?.role == DRIVER_ROLE) {
         return (<DriverNavigationStack />);
     }
 
-    if (user?.role == ADMIN_ROLE) {
+    if (user?.uid && user?.name && user?.role == ADMIN_ROLE) {
         return (<AdminNavigationStack />);
     }
 };

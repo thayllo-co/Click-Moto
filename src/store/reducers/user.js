@@ -1,6 +1,7 @@
 import { USER_LOGIN, USER_LOGOUT, USER_UPDATE } from '../actions/user';
 
-const userReducer = (state = null, action) => {
+
+export default userReducer = (state = null, action) => {
     switch (action.type) {
         case USER_LOGIN:
             return Object.assign({}, action.user);
@@ -14,6 +15,4 @@ const userReducer = (state = null, action) => {
         default:
             return state;
     }
-}
-
-export default userReducer;
+};

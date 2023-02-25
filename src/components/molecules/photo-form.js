@@ -4,23 +4,15 @@ import { StyleSheet, View } from 'react-native';
 import Text from '../atoms/text';
 import Image from '../atoms/image';
 import userPhoto from '../../assets/images/user-photo.png';
-import PhotoPicker from './photo-picker';
 
 
 export default PhotoForm = props => {
-
-    const [isPhotoPickerVisible, setIsPhotoPickerVisible] = useState(false);
-
-    togglePhotoPicker = () => setIsPhotoPickerVisible(!isPhotoPickerVisible);
-
     return (
         <View style={styles.container}>
 
-            <Image source={props.photo || userPhoto} style={styles.userPhoto} />
+            <Image source={props.photoURL ? { uri: props.photoURL } : userPhoto} style={styles.userPhoto} />
 
-            <Text paragraph link highlight center size="md" value="Editar foto" onPress={togglePhotoPicker} />
-
-            <PhotoPicker isVisible={isPhotoPickerVisible} toggler={togglePhotoPicker} savePhoto={props.savePhoto} />
+            <Text paragraph link highlight center size="md" value="Editar foto" onPress={props.openPhotoPicker} />
 
         </View>
     );
@@ -36,5 +28,7 @@ const styles = StyleSheet.create({
     userPhoto: {
         height: 125,
         width: 125,
+        borderRadius: 150,
+        overflow: 'hidden'
     }
 });

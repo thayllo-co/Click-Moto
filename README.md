@@ -67,5 +67,17 @@ yarn ios
     + Documentação:
         + [redux](https://github.com/reduxjs/redux);
         + [react-redux](https://github.com/reduxjs/react-redux);
-        + [redux-thunk](https://github.com/reduxjs/redux-thunk);
-        
+        + [redux-thunk](https://github.com/reduxjs/redux-thunk);   
++ Adicionando Firebase Authentication, Database e Storage ao Redux no fluxo de login e configurado debuger e logs
+    + Comando usado:
+        ~~~bash  
+        yarn add @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/database @react-native-firebase/storage react-native-logs react-native-fs react-native-zip-archive
+        ~~~
+    + Documentação:
+        + [@react-native-firebase/app](https://github.com/invertase/react-native-firebase);
+        + [@react-native-firebase/auth](https://rnfirebase.io/auth/usage);
+        + [@react-native-firebase/database](https://rnfirebase.io/database/usage);
+        + [@react-native-firebase/storage](https://rnfirebase.io/storage/usage);
+        + [react-native-logs](https://github.com/onubo/react-native-logs);
+        + [react-native-fs](https://github.com/itinance/react-native-fs);
+        + [react-native-zip-archive](https://github.com/mockingbot/react-native-zip-archive);
