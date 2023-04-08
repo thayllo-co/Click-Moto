@@ -68,7 +68,7 @@ export default MotorcycleForm = props => {
 
             <View style={styles.innerContainer}>
 
-                <Button size="lg" onPress={validateForm}>Próximo</Button>
+                <Button size="lg" onPress={validateForm} value="Próximo" />
 
             </View>
             

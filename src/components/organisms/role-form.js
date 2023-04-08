@@ -10,11 +10,11 @@ export default RoleForm = props => {
     return (
         <View style={styles.container}>
 
-            <Button size="lg" onPress={() => props.handleSubmitRole(ADMIN_ROLE)}>Administrador</Button>
+            <Button size="lg" onPress={() => props.handleSubmitRole(ADMIN_ROLE)} value="Administrador" />
 
-            <Button size="lg" onPress={() => props.handleSubmitRole(DRIVER_ROLE)}>Motorista</Button>
+            <Button size="lg" onPress={() => props.handleSubmitRole(DRIVER_ROLE)} value="Motorista" />
 
-            <Button size="lg" onPress={() => props.handleSubmitRole(PASSENGER_ROLE)}>Passageiro</Button>
+            <Button size="lg" onPress={() => props.handleSubmitRole(PASSENGER_ROLE)} value="Passageiro" />
 
         </View>
     );

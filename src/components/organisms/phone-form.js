@@ -67,7 +67,7 @@ export default PhoneForm = props => {
 
             {!isVerificationCodeVisible &&
                 <Animatable.View animation={"bounceIn"} style={styles.verificationCodeWrapper}>
-                    <Button size="lg" onPress={submitFullPhone}>Enviar código</Button>
+                    <Button size="lg" onPress={submitFullPhone} value="Enviar código" />
                 </Animatable.View>}
 
             {isVerificationCodeVisible &&
@@ -86,9 +86,9 @@ export default PhoneForm = props => {
             {isVerificationCodeVisible &&
                 <Animatable.View animation={"bounceIn"} style={styles.verificationCodeWrapper}>
 
-                    <Button size="lg" onPress={startOver}>Recomeçar</Button>
+                    <Button size="lg" onPress={startOver} value="Recomeçar" />
 
-                    <Button size="lg" onPress={submitVerificationCode}>Confirmar</Button>
+                    <Button size="lg" onPress={submitVerificationCode} value="Confirmar" />
 
                 </Animatable.View>}
 

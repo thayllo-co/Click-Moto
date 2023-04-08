@@ -15,7 +15,7 @@ export default button = props => (
         onPress={props.onPress}
         disabled={props.disabled}>
 
-        <Text style={styles.buttonText}>{props.children}</Text>
+        <Text style={styles.buttonText}>{props.value}</Text>
 
     </TouchableOpacity>
 );

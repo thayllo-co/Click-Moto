@@ -3,9 +3,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import userReducer from './reducers/user';
+import rideReducer from './reducers/ride';
 
 const rootReducer = combineReducers({
   user: userReducer,
+  ride: rideReducer
 });
 
 const initialState = {};

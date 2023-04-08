@@ -19,4 +19,32 @@ export const SIZES = {
     MD: "md", // 60%
     LG: "lg", // 80%
     XL: "xl", // 100%
-}
+};
+
+export const LOCATION_OPTIONS = {
+    accuracy: {
+        android: 'high',
+        ios: 'best',
+    },
+    enableHighAccuracy: true,
+    timeout: 2000
+};
+
+export const RIDE_TYPE = {
+    PASSENGER: 'passenger',
+    PACKAGE: 'package'
+};
+
+export const MAXIMUM_LOCATIONS_PER_RIDE = 3;
+
+export const GOOGLE_MAPS_API_KEY = "AIzaSyB6Qldfl0Acu0opoocZYu4p6a3KImV6IJo";
+
+export const USER_STATUS = {
+    IDLE: "IDLE",
+    DRAFT: "DRAFT",
+    SEARCHING: "SEARCHING",
+    CANCELED: "CANCELED",
+    PICKUP: "PICKUP",
+    ONGOING: "ONGOING",
+    DONE: "DONE",
+};

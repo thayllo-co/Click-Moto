@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import Text from '../atoms/text';
 
 
 export default PoliciyContent = props => {
     return (
-        <ScrollView>
+        <ScrollView style={styles.wrapper}>
             <Text paragraph light size="sm" value="Este instrumento contém os termos gerais e as condições de uso da plataforma Click Moto." />
             <Text paragraph light size="sm" value="Esse serviço é prestado pela empresa E.N. Machado M.E., com sede na cidade de Araras – SP, Rua Coronel Justiniano, 322, Centro, 13.600 - 700, inscrito no CNPJ/MF 08.887.844/00001 – 08, neste ato devidamente representado por Elidiane Neves Machado, brasileira, portadora da Cédula de Identidade nº 34.857.197 - 5 SSP/SP e inscrito no CPF/MF sob o nº 319.956.388 - 03, doravante denominada simplesmente CLICK MOTO." />
             <Text paragraph light size="sm" value="Do outro lado, a PARTE CONTRATANTE, qualificada de acordo com o cadastro eletrônico realizado na Click Moto, doravante denominada USUÁRIO." />
@@ -55,3 +55,9 @@ export default PoliciyContent = props => {
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        marginHorizontal: 12
+    }
+});

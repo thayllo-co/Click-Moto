@@ -71,7 +71,7 @@ yarn ios
 + Adicionando Firebase Authentication, Database e Storage ao Redux no fluxo de login e configurado debuger e logs
     + Comando usado:
         ~~~bash  
-        yarn add @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/database @react-native-firebase/storage react-native-logs react-native-fs react-native-zip-archive
+        yarn add @react-native-firebase/app @react-native-firebase/auth @react-native-firebase/database @react-native-firebase/storage react-native-logs react-native-fs react-native-zip-archive @redux-devtools/extension
         ~~~
     + Documentação:
         + [@react-native-firebase/app](https://github.com/invertase/react-native-firebase);
@@ -81,3 +81,23 @@ yarn ios
         + [react-native-logs](https://github.com/onubo/react-native-logs);
         + [react-native-fs](https://github.com/itinance/react-native-fs);
         + [react-native-zip-archive](https://github.com/mockingbot/react-native-zip-archive);
+        + [@redux-devtools/extension](https://github.com/reduxjs/redux-devtools);
+    + Nota (🐞): 
+        + Adicionalmente, para ativar o modo de depuração para inspecionar o app no React Native Debugger:
+            + Baixe e instale a ferramenta em seu computador ([página de lançamentos](https://github.com/jhen0409/react-native-debugger/releases));
+            + Na linha de comando onde você executou seu aplicativo com yarn start, digite "d" para abrir o menu do desenvolvedor no dispositivo ou emulador;
+            + No dispositivo quando a janela de opções do desenvolvedor aparecer, selecione a opção "Debug" (depurar);
+            + Concluído, as informações de depuração do seu aplicativo aparecerão na janela da ferramenta 🐞✨;
++ Adicionado componentes de UI e APIs de mapas com Redux no fluxo de corrida
+    + Comando usado:
+        ~~~bash  
+        yarn add react-native-maps react-native-geocoding react-native-geolocation-service react-native-maps-directions react-native-google-places-autocomplete react-native-permissions react-native-ratings
+        ~~~
+    + Documentação:
+        + [react-native-maps](https://github.com/react-native-maps/react-native-maps);
+        + [react-native-geocoding](https://github.com/marlove/react-native-geocoding);
+        + [react-native-geolocation-service](https://github.com/Agontuk/react-native-geolocation-service);
+        + [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions);
+        + [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete);
+        + [react-native-permissions](https://github.com/zoontek/react-native-permissions);
+        + [react-native-ratings](https://github.com/Monte9/react-native-ratings);

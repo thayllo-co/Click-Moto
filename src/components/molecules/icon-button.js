@@ -14,6 +14,8 @@ export default IconButton = props => {
                 (props.filled ? styles.buttonWrapper : null),
                 (props.success ? { backgroundColor: colors.success } : null),
                 (props.danger ? { backgroundColor: colors.danger } : null),
+                (props.labelPosition == "horizontal" ? styles.horizontalLabel : null),
+                props.style
             ]} >
 
             <Image source={props.source} style={[styles.iconOption,
@@ -22,7 +24,7 @@ export default IconButton = props => {
             {(props.label && props.dark) &&
                 <Text paragraph dark center size="md" value={props.label} />}
 
-            {(props.label && props.light)  &&
+            {(props.label && props.light) &&
                 <Text paragraph light center size="md" value={props.label} />}
 
         </TouchableOpacity>
@@ -67,4 +69,8 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
     },
+    horizontalLabel: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 });

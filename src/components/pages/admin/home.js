@@ -20,11 +20,11 @@ export default Home = () => {
                 backgroundColor: '#FDE93A'
             }}>
 
-            <Text>DRIVER HOME! Edit me! 🎉</Text>
+            <Text>ADMIN HOME! Edit me! 🎉</Text>
 
-            <Button size="lg" onPress={() => dispatch(disconnectUser())}>Sair</Button>
+            <Button size="lg" onPress={() => dispatch(disconnectUser())} value="Sair" />
 
-            <Button size="lg" onPress={() => dispatch(upploadUserLogs(uid))}>Enviar Logs</Button>
+            <Button size="lg" onPress={() => dispatch(upploadUserLogs(uid))} value="Enviar Logs" />
 
         </View>
     );

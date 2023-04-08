@@ -10,4 +10,6 @@ export default colors = {
     textDark: '#000000',
     textHighlight: '#FDE93A',
     textDanger: '#c9002c',
+    cardBackground: '#000000',
+    cardBorder: '#ffffff',
 };

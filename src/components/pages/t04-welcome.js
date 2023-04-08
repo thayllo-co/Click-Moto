@@ -10,6 +10,7 @@ import WelcomePassenger from '../organisms/welcome-passenger';
 import WelcomeAdimin from '../organisms/welcome-admin';
 import Button from '../atoms/button';
 import { ADMIN_ROLE, DRIVER_ROLE, PASSENGER_ROLE } from '../../utils/constants';
+import Header from '../molecules/header';
 
 
 export default Welcome = props => {
@@ -25,11 +26,11 @@ export default Welcome = props => {
 
             {(role == PASSENGER_ROLE) && <WelcomePassenger />}
 
-            {(role == DRIVER_ROLE) && <WelcomeDriver />}
+            {(role == DRIVER_ROLE) && <WelcomeDriver navigation={props.navigation} />}
 
             {(role == ADMIN_ROLE) && <WelcomeAdimin />}
 
-            <Button size="lg" onPress={() => props.navigation.navigate('Home')}>Continuar</Button>
+            <Button size="lg" onPress={() => props.navigation.navigate('Home')} value="Continuar" />
 
         </BackgroundDefault >
     );
@@ -38,6 +39,6 @@ export default Welcome = props => {
 const styles = StyleSheet.create({
     image: {
         height: 250,
-        marginVertical: 20
+        marginVertical: 50
     }
 });

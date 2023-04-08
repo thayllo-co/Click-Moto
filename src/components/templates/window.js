@@ -20,7 +20,7 @@ export default Window = props => {
 
                     <View style={styles.title}>
 
-                        <Text title light size="md" lines={1} value={props.title} />
+                        <Text title light center size="sm" lines={props.lines ? props.lines :1} value={props.title} />
 
                     </View>
 

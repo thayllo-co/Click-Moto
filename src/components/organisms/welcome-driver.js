@@ -13,7 +13,7 @@ export default WelcomeDriver = props => {
 
             <Text paragraph light center size="xl" value="Para completar seu cadastro e começar a receber as corridas precisamos que faça o envio de todos os documentos solicitados." />
 
-            <IconButton filled dark source={attach} size="sm" label="Documentos" onPress={() => log.error("OPEN DOCS INSTRUCTIONS")} />
+            <IconButton filled dark source={attach} size="sm" label="Documentos" onPress={() => props.navigation.navigate('VerificationInfo')} />
 
         </View>
     );

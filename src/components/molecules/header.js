@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
     conteiner: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 8
+        marginVertical: 12
     },
     icon: {
         width: 25,
         height: 25,
-        marginRight: 8,
+        marginHorizontal: 8,
     },
     header: {
         flex: 1

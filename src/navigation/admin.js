@@ -2,15 +2,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Welcome from '../../components/pages/t04-welcome';
-import Home from '../../components/pages/driver/t05-home';
-import { log } from '../../utils/logging';
+import Welcome from '../components/pages/t04-welcome';
+import Home from '../components/pages/admin/home';
+import { log } from '../utils/logging';
 
 const Stack = createNativeStackNavigator();
 
 
-export default DriverNavigationStack = () => {
-    log.info("DriverNavigationStack");
+export default AdminNavigationStack = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>

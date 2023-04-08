@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import Text from '../atoms/text';
 
 
 export default PoliciyContent = props => {
     return (
-        <ScrollView>
+        <ScrollView style={styles.wrapper}>
             <Text paragraph light size="sm" value="Por este instrumento eletrônico, a Click Moto, com sede na cidade de Araras - SP, Rua Coronel Justiniano, 322, Centro, 13.600 - 700, devidamente representada por Elidiane Neves Machado, inscrita no Cadastro de Pessoas Físicas do Ministério da Fazenda (“CPF/MF”) sob o nº 319.956.388-03, informa a sua POLÍTICA DE PRIVACIDADE, conforme o presente documento." />
             <Text paragraph light size="sm" value="A proteção dos dados pessoais de nossos clientes é muito importante para nós. Respeitamos sua privacidade, e por isso temos grande preocupação com a segurança de qualquer dado fornecido por você. Por essa razão, a Click Moto quer ajudar você a entender como funciona a nossa Política de Privacidade. Aqui, você entenderá como coletamos, utilizamos, compartilhamos e protegemos seus dados pessoais." />
             <Text paragraph light size="sm" value="No entanto, a Click Moto adverte que caso os USUÁRIOS não concordem com quaisquer das condições aqui descritas, que não utilizem seu aplicativo, visto que a utilização dessa ferramenta é automaticamente entendida como uma concordância irrevogável com a presente Política de Privacidade." />
@@ -97,3 +97,9 @@ export default PoliciyContent = props => {
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        marginHorizontal: 12
+    }
+});
