@@ -101,3 +101,13 @@ yarn ios
         + [react-native-google-places-autocomplete](https://github.com/FaridSafi/react-native-google-places-autocomplete);
         + [react-native-permissions](https://github.com/zoontek/react-native-permissions);
         + [react-native-ratings](https://github.com/Monte9/react-native-ratings);
+
++ Integração do fluxo de corrida com backend
+    + Comando usado:
+        ~~~bash  
+        yarn add 
+        ~~~
+    + Documentação:
+        + [@react-native-firebase/messaging](https://rnfirebase.io/messaging/usage);
+        + [@notifee/react-native](https://notifee.app/react-native/docs/integrations/fcm);
+        + [@react-native-firebase/functions](https://rnfirebase.io/functions/usage);

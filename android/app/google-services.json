@@ -1,0 +1,151 @@
+{
+  "project_info": {
+    "project_number": "1039763845854",
+    "firebase_url": "https://app-click-moto.firebaseio.com",
+    "project_id": "app-click-moto",
+    "storage_bucket": "app-click-moto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039763845854:android:33568581608967037a884f",
+        "android_client_info": {
+          "package_name": "com.clickmoto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEp3azY2GOX1rLozpcsGBcQsSxAL6qQjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039763845854-8bd2oqq85i8mucn4j85jga0lbhuv2djf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.startupengenharia.clickmoto"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039763845854:android:02843a3266b2f47e7a884f",
+        "android_client_info": {
+          "package_name": "com.clickmotomotorista"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039763845854-64c38vpkjg0c299gcott993pa7thl22h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clickmotomotorista",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1039763845854-edudg26q0n5mb7u63lfnt2ciuhq79pvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clickmotomotorista",
+            "certificate_hash": "0fef02a8e993e02a492a4c2825998dee00b921a4"
+          }
+        },
+        {
+          "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEp3azY2GOX1rLozpcsGBcQsSxAL6qQjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039763845854-8bd2oqq85i8mucn4j85jga0lbhuv2djf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.startupengenharia.clickmoto"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039763845854:android:91c5d438cc79dda97a884f",
+        "android_client_info": {
+          "package_name": "com.clickmotopassageiro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039763845854-j00q47stic844ohnuu480937nbp57717.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clickmotopassageiro",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1039763845854-o70j6gl7bfd9vb5022f88k8irfng75as.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clickmotopassageiro",
+            "certificate_hash": "07af69cb35633d0464981b76b2fafdecebb49c16"
+          }
+        },
+        {
+          "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEp3azY2GOX1rLozpcsGBcQsSxAL6qQjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039763845854-nmh3vi2qed9ne2pve7d9vb3psuahkpqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1039763845854-8bd2oqq85i8mucn4j85jga0lbhuv2djf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.startupengenharia.clickmoto"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

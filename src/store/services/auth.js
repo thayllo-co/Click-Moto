@@ -22,11 +22,11 @@ export const authSignInWithPhoneNumber = async phoneNumber => {
         const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
         ToastMessage('Você receberá um código de verificação por SMS 📩', TYPE.SUCCESS);
         log.success("🔥 authSignInWithPhoneNumber()");
-        return { itSucceed: true, confirmation };
+        return { isSuccessful: true, confirmation };
     } catch (error) {
         ToastMessage("⚠️ Ocorreu um erro ao fazer login", TYPE.ERROR);
         log.error("🔥 authSignInWithPhoneNumber() ", error);
-        return { itSucceed: false };
+        return { isSuccessful: false };
     }
 }
 
@@ -37,11 +37,11 @@ export const authConfirmVerificationCode = async (confirmation, code) => {
         await confirmation.confirm(code);
         ToastMessage('Código confirmando com sucesso! ✅', TYPE.SUCCESS);
         log.success("🔥 authConfirmVerificationCode()");
-        return { itSucceed: true };
+        return { isSuccessful: true };
     } catch (error) {
         ToastMessage("⚠️ Ocorreu um erro ao confirmar o código de verificação", TYPE.ERROR);
         log.error("🔥 authConfirmVerificationCode() ", error);
-        return { itSucceed: false };
+        return { isSuccessful: false };
     }
 }
 
@@ -52,10 +52,10 @@ export const authSignOut = async () => {
         await auth().signOut();
         ToastMessage('Logout bem sucedido! ✅', TYPE.SUCCESS);
         log.success("🔥 authSignOut()");
-        return { itSucceed: true };
+        return { isSuccessful: true };
     } catch (error) {
         ToastMessage("⚠️ Ocorreu um erro ao desconectar o usuário", TYPE.ERROR);
         log.error("🔥 authSignOut()", error);
-        return { itSucceed: false };
+        return { isSuccessful: false };
     }
 }

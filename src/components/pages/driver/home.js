@@ -12,9 +12,9 @@ import RatingForm from '../../organisms/rating-form';
 import menuIcon from '../../../assets/images/menu.png';
 import closeIcon from '../../../assets/images/close.png';
 
-import { deleteRideRating } from '../../../store/actions/ride';
-import { userUpdate } from '../../../store/actions/user';
-import { USER_STATUS } from '../../../utils/constants';
+import { completeRideWaypoint, finishRide, getUpdatedRideOngoing, processDriverAcceptance, sendRideRating, startRideOngoing, updateOngoingRideLocation } from '../../../store/actions/ride';
+import { joinOnlineDrivers, leaveOnlineDrivers, updateOnlineDrivers } from '../../../store/actions/online-drivers';
+import { RIDE_STATUS, USER_STATUS } from '../../../utils/constants';
 import { log } from '../../../utils/logging';
 import Button from '../../atoms/button';
 
@@ -24,26 +24,40 @@ export default Home = props => {
     // REDUX
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const notifications = useSelector(state => state.notifications);
+    const rideOngoing = useSelector(state => state.ride?.rideOngoing);
 
     // Controladores de componentes de UI
     const [isMenuVisible, setIsMenuVisible] = useState(false);
-    const [isNewRideVisible, setIsNewRideVisible] = useState(false);
     const [isWorkingTimeConfirmationVisible, setIsWorkingTimeConfirmationVisible] = useState(false);
+    const [newRideFound, setNewRideFound] = useState(null);
 
     useEffect(() => {
-        log.info("Home initial hook (componentDidMount)");
+        if (user?.currentRide) {
+            dispatch(getUpdatedRideOngoing(user?.currentRide));
+        }
     }, []);
 
     useEffect(() => {
-        log.info("USER STATUS CHANGED ", user?.status);
-        log.info("MOUNT SCENARIO");
-    }, [user?.status]);
+        log.info("USER LOCATION CHANGED ", user?.currentLocation);
+        if (user?.isOnline && user?.status === USER_STATUS.IDLE) {
+            dispatch(updateOnlineDrivers(user?.uid, user?.currentLocation));
+        }
+        if (user?.currentRide && (user?.status === USER_STATUS.PICKUP || user?.status === USER_STATUS.ONGOING)) {
+            dispatch(updateOngoingRideLocation(user?.currentRide, user?.currentLocation));
+        }
+    }, [user?.currentLocation]);
 
-
-    const startWorkingTime = () => {
-        setIsWorkingTimeConfirmationVisible(false);
-        console.log("START WORKING");
-    }
+    useEffect(() => {
+        console.log("notifications: ", notifications);
+        if (notifications && notifications?.data) {
+            const notificationData = JSON.parse(notifications.data.notification);
+            console.log("notificationData", notificationData);
+            if (notificationData.notificationType == "NEW_RIDE_REQUEST" && user?.status == USER_STATUS.IDLE) {
+                setNewRideFound(notificationData);
+            }
+        }
+    }, [notifications]);
 
     return (
         <BackgroundMap>
@@ -73,7 +87,7 @@ export default Home = props => {
                 <Button style={styles.topContent} onPress={() => props.navigation.navigate('Earnings')} value="Ganhos" />}
 
             {/* expediente */}
-            {user?.isVerified &&
+            {(user?.status == USER_STATUS.IDLE && user?.isVerified) &&
                 <Button style={styles.bottomContent}
                     onPress={() => setIsWorkingTimeConfirmationVisible(true)}
                     value={"Você está " + (user?.isOnline ? "ON" : "OFF") +
@@ -84,29 +98,35 @@ export default Home = props => {
                 <WorkingTimeConfirmation
                     isVisible={isWorkingTimeConfirmationVisible}
                     toggler={() => setIsWorkingTimeConfirmationVisible(false)}
-                    startWorking={startWorkingTime}
+                    toggleWorkingTime={() => (!user?.isOnline) ? dispatch(joinOnlineDrivers(user?.uid, user?.currentLocation)) : dispatch(leaveOnlineDrivers(user?.uid))}
                     confirmationHeading={user?.isOnline ? "Encerrar expediente?" : "Começar expediente?"}
                     confirmationMessage={user?.isOnline ? "Ao continuar você não irá receber corridas" : "Ao continuar você poderá receber corridas"}
                 />}
 
             {/* janela de nova corrida */}
             <NewRide
-                isVisible={isNewRideVisible}
-                toggler={() => setIsNewRideVisible(false)}
-                rideTime={1.23}
-                rideDistance={7.3244}
-                rideValue={10.80}
-                changeValue={50} />
+                isVisible={newRideFound ? true : false}
+                ride={newRideFound}
+                toggler={() => setNewRideFound(null)}
+                sendRideAcceptance={() => dispatch(processDriverAcceptance(user?.uid, user?.currentLocation, newRideFound))} />
 
             {/* informações do usuário */}
-            {(user?.status == USER_STATUS.ONGOING) &&
-                <UserInfo rideTime={10.7} isRideStarted={false} isWaypointsDone={false} />}
+            {(user?.status == USER_STATUS.PICKUP || user?.status == USER_STATUS.ONGOING) &&
+                <UserInfo
+                    rideOngoing={rideOngoing}
+                    userRole={user?.role}
+                    startRide={() => dispatch(startRideOngoing(user?.uid, user?.currentRide))}
+                    makeWaypoint={() => dispatch(completeRideWaypoint(user?.currentRide))}
+                    endRide={() => dispatch(finishRide(user?.currentRide, user?.uid, rideOngoing?.passenger))} />}
 
             {/* avaliação da corrida */}
-            {(user?.status == USER_STATUS.DONE) &&
+            {(user?.status == RIDE_STATUS.DONE) &&
                 <RatingForm
-                    nextAction
-                    dismiss={() => dispatch(deleteRideRating())} />}
+                    nextAction={rating => dispatch(sendRideRating(user?.uid, user?.currentRide, rating))}
+                    dismiss={() => {
+                        dispatch(stopWatchingChangesOnRide(user?.currentRide));
+                        dispatch(uploadUserData(user?.uid, { status: USER_STATUS.IDLE, currentRide: null }));
+                    }} />}
 
         </BackgroundMap>
     );

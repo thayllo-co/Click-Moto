@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Welcome from '../components/pages/t04-welcome';
 import Home from '../components/pages/driver/home';
@@ -19,10 +20,14 @@ const Stack = createNativeStackNavigator();
 
 
 export default DriverNavigationStack = () => {
+
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Welcome" component={Welcome} />
+                {!user?.isVerified && <Stack.Screen name="Welcome" component={Welcome} />}
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="RidesHistory" component={RidesHistory} />
                 <Stack.Screen name="Support" component={Support} />

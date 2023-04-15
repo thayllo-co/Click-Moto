@@ -40,11 +40,11 @@ export const checkLogsFolder = async () => {
     try {
         log.info("📝 checkLogsFolder()");
         const logsFolderExists = await RNFS.exists(logsPath);
-        log.success("📝 checkLogsFolder() ", logsFolderExists);
         if (!logsFolderExists) {
             log.info("📝 Making Directory...");
             await RNFS.mkdir(logsPath);
         }
+        log.success("📝 checkLogsFolder() ", logsFolderExists);
     } catch (error) {
         log.error("📝 checkLogsFolder() ", error);
     }

@@ -33,7 +33,7 @@ export default RatingForm = props => {
 
                     <Button size="sm" onPress={props.dismiss} value="Sair" />
 
-                    <Button size="sm" onPress={props.nextAction} value="Avaliar" />
+                    <Button size="sm" onPress={() => props.nextAction(rating)} value="Avaliar" />
 
                 </View>
 

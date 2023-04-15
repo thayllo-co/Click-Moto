@@ -5,8 +5,6 @@ import {
     RIDE_ONGOING_CREATE,
     RIDE_ONGOING_DELETE,
     RIDE_ONGOING_UPDATE,
-    RIDE_RATING_CREATE,
-    RIDE_RATING_DELETE
 } from "../actions/ride";
 
 
@@ -21,12 +19,8 @@ export default rideReducer = (state = null, action) => {
         case RIDE_ONGOING_CREATE:
             return Object.assign({}, { rideOngoing: action.ride });
         case RIDE_ONGOING_UPDATE:
-            return Object.assign({}, { rideOngoing: { ...state.rideOngoing, ...action.update } });
+            return Object.assign({}, { rideOngoing: { ...state?.rideOngoing, ...action.update } });
         case RIDE_ONGOING_DELETE:
-            return null;
-        case RIDE_RATING_CREATE:
-            return Object.assign({}, { rideRating: action.ride });
-        case RIDE_RATING_DELETE:
             return null;
         default:
             return state;

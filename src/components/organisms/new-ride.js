@@ -14,17 +14,17 @@ export default NewRide = props => {
 
             <View style={styles.contentWrapper}>
 
-                <Image source={props.rideType == "package" ? packageIcon : passengerIcon} style={styles.rideTypeIcon} />
+                <Image source={props.ride?.rideType == "package" ? packageIcon : passengerIcon} style={styles.rideTypeIcon} />
 
                 <View>
 
-                    <Text light paragraph size="xl" value={props.rideDistance + " km"} />
+                    <Text light paragraph size="xl" value={"📍 " + props.ride?.rideDistance + " km"} />
 
-                    <Text light paragraph size="xl" value={props.rideTime + " min"} />
+                    <Text light paragraph size="xl" value={"⏱ " + props.ride?.rideTime + " min"} />
 
-                    <Text light paragraph size="xl" value={"R$ " + props.rideValue} />
+                    <Text light paragraph size="xl" value={"💰 R$ " + props.ride?.ridePrice} />
 
-                    <Text light paragraph size="xl" value={"Troco para: R$ " + props.changeValue} />
+                    <Text light paragraph size="xl" value={"👛 R$ " + props.ride?.changeValue} />
 
                 </View>
 
@@ -34,7 +34,7 @@ export default NewRide = props => {
 
                 <Button size="sm" onPress={props.toggler} value="Recusar" />
 
-                <Button size="sm" onPress={props.sendRideAcceptance} value="Aceitar" />
+                <Button size="sm" onPress={() => { props.sendRideAcceptance(); props.toggler(); }} value="Aceitar" />
 
             </View>
 

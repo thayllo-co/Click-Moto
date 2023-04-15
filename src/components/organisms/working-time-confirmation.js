@@ -10,13 +10,13 @@ export default WorkingTimeConfirmation = props => {
     return (
         <Window isVisible={props.isVisible} toggler={props.toggler} title={props.confirmationHeading} lines={2}>
 
-            <Text light title center size="md" value={props.confirmationMessage}/>
+            <Text light title center size="md" value={props.confirmationMessage} />
 
             <View style={styles.buttonsRow}>
 
                 <Button size="sm" onPress={props.toggler} value="Cancelar" />
 
-                <Button size="sm" onPress={props.startWorking} value="Continuar" />
+                <Button size="sm" onPress={() => { props.toggleWorkingTime(); props.toggler(); }} value="Continuar" />
 
             </View>
 

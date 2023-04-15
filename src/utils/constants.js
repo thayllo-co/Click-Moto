@@ -48,3 +48,14 @@ export const USER_STATUS = {
     ONGOING: "ONGOING",
     DONE: "DONE",
 };
+
+export const RIDE_STATUS = {
+    CREATED: "CREATED",
+    SEARCHING: "SEARCHING",
+    CANCELED: "CANCELED",
+    PICKUP: "PICKUP",
+    ONGOING: "ONGOING",
+    DONE: "DONE",
+};
+
+export const EXPECTED_OBJECT_REF = {};

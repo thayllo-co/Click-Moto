@@ -20,7 +20,7 @@ import {
 } from '../../store/services/maps';
 import { calculateRidePrice, deleteRideDraft, updateRideDraft } from '../../store/actions/ride';
 import { userUpdate } from '../../store/actions/user';
-import { GOOGLE_MAPS_API_KEY, MAXIMUM_LOCATIONS_PER_RIDE, USER_STATUS } from '../../utils/constants';
+import { GOOGLE_MAPS_API_KEY, MAXIMUM_LOCATIONS_PER_RIDE, PASSENGER_ROLE, USER_STATUS } from '../../utils/constants';
 import { GOOGLE_MAPS_DARK_THEME } from '../../theme/maps';
 import colors from '../../theme/colors';
 import { ToastMessage, TYPE } from '../atoms/toast-message';
@@ -36,6 +36,8 @@ export default BackgroundMap = props => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rideDraft = useSelector(state => state.ride?.rideDraft);
+    const rideOngoing = useSelector(state => state.ride?.rideOngoing);
+    const onlineDrivers = useSelector(state => state.onlineDrivers);
 
     const updateMapsPermission = isMapsPermissionGranted => dispatch(userUpdate({ isMapsPermissionGranted }));
     const updateUserCurrentLocation = currentLocation => dispatch(userUpdate({ currentLocation }));
@@ -135,6 +137,11 @@ export default BackgroundMap = props => {
         }
     };
 
+    handleOngoingDirections = result => {
+        console.log("handleOngoingDirections: ", result);
+        focusMapOnDirections();
+    };
+
     saveRideItinerary = () => {
         const clenedItinerary = getClenedItinerary();
         if (clenedItinerary.length >= 2) {
@@ -178,6 +185,16 @@ export default BackgroundMap = props => {
                     </Marker>
                 }
 
+                {(onlineDrivers && user?.status === USER_STATUS.IDLE && user?.role === PASSENGER_ROLE) &&
+                    onlineDrivers.map((driver, index) =>
+                        <Marker
+                            key={index}
+                            coordinate={driver?.location}>
+                            <MapImageMarker type="driver" />
+                        </Marker>
+                    )
+                }
+
                 {rideDraft?.itinerary?.length >= 2 &&
                     <MapViewDirections
                         origin={rideDraft?.itinerary[0]}
@@ -203,21 +220,46 @@ export default BackgroundMap = props => {
                     )
                 }
 
+                {rideOngoing?.itinerary?.length >= 2 &&
+                    <MapViewDirections
+                        origin={rideOngoing?.itinerary[0]}
+                        destination={rideOngoing?.itinerary[rideOngoing?.itinerary.length - 1] || rideOngoing?.itinerary[rideOngoing?.itinerary.length - 2]}
+                        waypoints={(rideOngoing?.itinerary.length > 2) ? rideOngoing?.itinerary.slice(1, -1) : undefined}
+                        onReady={result => handleOngoingDirections(result)}
+                        optimizeWaypoints={true}
+                        apikey={GOOGLE_MAPS_API_KEY}
+                        strokeWidth={4}
+                        strokeColor={colors.primary}
+                    />
+                }
+
+                {rideOngoing?.itinerary?.length >= 2 &&
+                    rideOngoing?.itinerary.map((location, index) =>
+                        location != null ?
+                            <Marker
+                                key={index}
+                                coordinate={location}
+                                title={(index + 1) + "º - " + location.title}>
+                                <MapImageMarker />
+                            </Marker> : null
+                    )
+                }
+
             </MapView>
 
             {!rideDraft &&
                 <IconButton source={compassIcon} size="xs" style={styles.compassIcon}
                     onPress={() => mapsGetCurrentLocation(updateUserCurrentLocation)} />}
 
-            {(rideDraft?.isLoading || user?.isLoading || !user?.isMapsPermissionGranted) &&
+            {(rideDraft?.isLoading || !user?.isMapsPermissionGranted) &&
                 <View style={styles.loadingLayer}>
-                    {rideDraft?.isLoading &&
+                    {(user?.isLoading) &&
                         <LoadingIndicator style={styles.loading} />}
-                    {!user?.isMapsPermissionGranted &&
+                    {(user?.isMapsPermissionGranted === false) &&
                         <Text light title center bold size="md" value="⚠️ AVISO ⚠️" />}
-                    {!user?.isMapsPermissionGranted &&
+                    {(user?.isMapsPermissionGranted === false) &&
                         <Text light title center size="xs" value="Você precisa conceder permissão de localização para continuar" />}
-                    {!user?.isMapsPermissionGranted &&
+                    {(user?.isMapsPermissionGranted === false) &&
                         <Button size="md" onPress={() => mapsRequestLocationPermission(updateMapsPermission)} value="Tentar novamente" />}
                 </View>
             }

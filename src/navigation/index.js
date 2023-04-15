@@ -18,6 +18,7 @@ import DriverNavigationStack from './driver';
 import { authOnAuthStateChanged } from '../store/services/auth';
 import { checkUserData, userLogout } from '../store/actions/user';
 import { checkLogsFolder, log } from '../utils/logging';
+import { messagingHandleTokenUpdates, messagingRequestPermission, messagingSaveUserToken } from '../store/services/messaging';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,16 +35,12 @@ export default AppNavigationStack = () => {
     }, []);
 
     useEffect(() => {
+        messagingRequestPermission();
         const subscriber = authOnAuthStateChanged(
-            user => {
-                dispatch(checkUserData(user));
-                setInitializing(false);
-            },
-            () => {
-                dispatch(userLogout());
-                setInitializing(false);
-            }
+            user => { dispatch(checkUserData(user)); messagingSaveUserToken(); setInitializing(false); },
+            () => { dispatch(userLogout()); setInitializing(false); }
         );
+        messagingHandleTokenUpdates();
         return subscriber;
     }, []);
 

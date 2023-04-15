@@ -4,10 +4,14 @@ import thunk from 'redux-thunk';
 
 import userReducer from './reducers/user';
 import rideReducer from './reducers/ride';
+import onlineDriversReducer from './reducers/online-drivers';
+import notificationsReducer from './reducers/notifications';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  ride: rideReducer
+  ride: rideReducer,
+  onlineDrivers: onlineDriversReducer,
+  notifications: notificationsReducer
 });
 
 const initialState = {};

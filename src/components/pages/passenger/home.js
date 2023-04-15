@@ -16,9 +16,13 @@ import menuIcon from '../../../assets/images/menu.png';
 import closeIcon from '../../../assets/images/close.png';
 import motoIcon from '../../../assets/images/moto.png';
 
-import { createRideDraft, deleteRideDraft, deleteRideRating, updateRideDraft } from '../../../store/actions/ride';
-import { userUpdate } from '../../../store/actions/user';
-import { USER_STATUS } from '../../../utils/constants';
+import {
+    createNewRideRequest, createRideDraft, deleteRideDraft, processPassengerCancellation,
+    sendRideRating, startWatchingChangesOnRide, stopWatchingChangesOnRide, updateRideDraft
+} from '../../../store/actions/ride';
+import { uploadUserData } from '../../../store/actions/user';
+import { startWatchingOnlineDrivers, stopWatchingOnlineDrivers } from '../../../store/actions/online-drivers';
+import { RIDE_STATUS, USER_STATUS } from '../../../utils/constants';
 import { log } from '../../../utils/logging';
 
 
@@ -28,45 +32,44 @@ export default Home = props => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const rideDraft = useSelector(state => state.ride?.rideDraft);
+    const rideOngoing = useSelector(state => state.ride?.rideOngoing);
+    const onlineDrivers = useSelector(state => state.onlineDrivers);
 
     // Controladores de componentes de UI
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [isRideTypeVisible, setIsRideTypeVisible] = useState(false);
 
     useEffect(() => {
-        log.info("Home initial hook (componentDidMount)");
+        if (user?.status === USER_STATUS.IDLE) {
+            dispatch(startWatchingOnlineDrivers());
+        }
+        if (user?.currentRide) {
+            dispatch(startWatchingChangesOnRide( user?.currentRide));
+        }
+        return () => {
+            dispatch(stopWatchingOnlineDrivers());
+            if (user?.currentRide)
+                dispatch(stopWatchingChangesOnRide(user.currentRide));
+        };
     }, []);
-
-    useEffect(() => {
-        log.info("USER STATUS CHANGED ", user?.status);
-        log.info("MOUNT SCENARIO");
-    }, [user?.status]);
-
-    const startRideSearch = () => {
-        dispatch(userUpdate({ status: USER_STATUS.SEARCHING, rideDraft }));
-    };
-
-    const cancelRideSearch = () => {
-        dispatch(userUpdate({ status: USER_STATUS.IDLE, rideDraft: null }));
-    };
 
     return (
         <BackgroundMap>
 
             {/* menu */}
-            {(user?.status == USER_STATUS.IDLE && !rideDraft) &&
+            {((user?.status == USER_STATUS.IDLE && !rideDraft) || user?.status == USER_STATUS.ONGOING) &&
                 <IconButton light size="xs"
                     source={!isMenuVisible ? menuIcon : closeIcon}
                     style={styles.menuIconWrapper}
-                    onPress={() => setIsMenuVisible(!isMenuVisible)} />}
+                    onPress={() => setIsMenuVisible(currValue => !currValue)} />}
 
             {isMenuVisible &&
                 <Menu
                     photoURL={user?.photoURL}
                     name={user?.name}
                     rating={user?.rating}
-                    navigation={props.navigation} 
-                    dismiss={() => setIsMenuVisible(false)}/>}
+                    navigation={props.navigation}
+                    dismiss={() => setIsMenuVisible(false)} />}
 
             {/* inicia a solicitação de corrida e janela de selecionar o tipo */}
             {(user?.status == USER_STATUS.IDLE && !rideDraft) &&
@@ -96,25 +99,28 @@ export default Home = props => {
             {(user?.status == USER_STATUS.IDLE && rideDraft?.ridePrice && rideDraft?.isRidePriceConfirmed && rideDraft?.changeValue) &&
                 <FinalConfirmation
                     backAction={() => dispatch(deleteRideDraft())}
-                    nextAction={startRideSearch}
-                    noOnlineDrivers={false}
+                    nextAction={() => dispatch(createNewRideRequest(user?.uid, rideDraft))}
+                    noOnlineDrivers={onlineDrivers?.length > 0 ? false : true}
                     ride={rideDraft} />}
 
             {/* procurando motoristas */}
-            {(user?.status == USER_STATUS.SEARCHING) &&
+            {(rideOngoing?.status == RIDE_STATUS.SEARCHING || rideOngoing?.status == RIDE_STATUS.CREATED) &&
                 <SearchingDrivers
-                    cancel={cancelRideSearch}
-                    driversSearchInfo="Progresso 1 de 2 ..." />}
+                    cancel={() => dispatch(processPassengerCancellation(user?.uid, rideOngoing))}
+                    driversSearchInfo={rideOngoing?.info || "Carregando dados..."} />}
 
             {/* informações do usuário */}
-            {(user?.status == USER_STATUS.ONGOING) &&
-                <UserInfo rideTime={10.7} isRideStarted={false} isWaypointsDone={false} />}
+            {(rideOngoing?.status == RIDE_STATUS.PICKUP || rideOngoing?.status == RIDE_STATUS.ONGOING) &&
+                <UserInfo rideOngoing={rideOngoing} userRole={user?.role} />}
 
             {/* avaliação da corrida */}
-            {(user?.status == USER_STATUS.DONE) &&
+            {(rideOngoing?.status == RIDE_STATUS.DONE) &&
                 <RatingForm
-                    nextAction
-                    dismiss={() => dispatch(deleteRideRating())} />}
+                    nextAction={rating => dispatch(sendRideRating(user?.uid, user?.currentRide, rating))}
+                    dismiss={() => {
+                        dispatch(stopWatchingChangesOnRide(user?.currentRide));
+                        dispatch(uploadUserData(user?.uid, { status: USER_STATUS.IDLE, currentRide: null }));
+                    }} />}
 
         </BackgroundMap>
     );

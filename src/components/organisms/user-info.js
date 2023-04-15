@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Card from '../templates/card';
@@ -10,6 +10,7 @@ import userIcon from '../../assets/images/user-photo.png';
 import ConfirmationWindow from '../templates/confirmation-window';
 
 import { getTimeFromNumber } from '../../utils/fuctions';
+import { DRIVER_ROLE, PASSENGER_ROLE, RIDE_STATUS } from '../../utils/constants';
 
 
 export default UserInfo = props => {
@@ -20,12 +21,16 @@ export default UserInfo = props => {
     const [isCallUserVisible, setIsCallUserVisible] = useState(false);
     const [isCallEmergencyVisible, setIsCallEmergencyVisible] = useState(false);
 
+    useEffect(() => {
+        console.log("props.rideOngoing: ", props.rideOngoing);
+    }, [props.rideOngoing])
+
     return (
         <Card style={styles.cardWrapper}>
 
             <View style={styles.contentWrapper}>
 
-                <Text paragraph highlight center size="xs" value={"Tempo estimado: " + getTimeFromNumber(props.rideTime) + " minutos"} />
+                <Text paragraph highlight center size="xs" value={"Tempo estimado: " + getTimeFromNumber(props.rideOngoing?.rideTime) + " minutos"} />
 
                 <View style={styles.userRow}>
 
@@ -41,9 +46,11 @@ export default UserInfo = props => {
 
                         <Text light title center size="lg" value="Thayllo Oliveira" lines={1} />
 
-                        <Text light paragraph center size="md" value="Honda - POP100" />
+                        {props.userRole === PASSENGER_ROLE &&
+                            <Text light paragraph center size="lg" value="Honda - POP100" />}
 
-                        <Text light paragraph center size="md" value="ABC1234 - Preta" />
+                        {props.userRole === PASSENGER_ROLE &&
+                            <Text light paragraph center size="lg" value="ABC1234 - Preta" />}
 
                         <View style={styles.buttonsRow}>
 
@@ -51,16 +58,23 @@ export default UserInfo = props => {
 
                             <IconButton light source={callIcon} size="sm" onPress={() => setIsCallUserVisible(!isCallUserVisible)} />
 
-                            {!props.isRideStarted &&
-                                <Button size="sm" onPress={() => setIsStartRideVisible(!isStartRideVisible)} value="Iniciar" />}
-
-                            {props.isRideStarted && !props.isWaypointsDone &&
-                                <Button size="sm" onPress={() => setIsMakeWaypointVisible(!isMakeWaypointVisible)} value="Parada" />}
-
-                            {props.isRideStarted && props.isWaypointsDone &&
-                                <Button size="sm" onPress={() => setIsEndRideVisible(!isEndRideVisible)} value="Encerrar" />}
-
                         </View>
+
+                        {props.userRole === DRIVER_ROLE &&
+                            <View style={styles.buttonsRow}>
+
+                                {(props.rideOngoing?.status === RIDE_STATUS.CREATED || props.rideOngoing?.status === RIDE_STATUS.PICKUP) &&
+                                    <Button size="md" onPress={() => setIsStartRideVisible(!isStartRideVisible)} value="Iniciar" />}
+
+                                {(props.rideOngoing?.itinerary?.length > 2 && props.rideOngoing?.waypoints !== RIDE_STATUS.DONE) &&
+                                    <Button size="md" onPress={() => setIsMakeWaypointVisible(!isMakeWaypointVisible)} value="Parada" />}
+
+                                {((props.rideOngoing?.status === RIDE_STATUS.ONGOING) &&
+                                    (props.rideOngoing?.itinerary?.length <= 2 || props.rideOngoing?.waypoints === RIDE_STATUS.DONE)) &&
+                                    <Button size="md" onPress={() => setIsEndRideVisible(!isEndRideVisible)} value="Encerrar" />}
+
+                            </View>
+                        }
 
                     </View>
 
@@ -71,19 +85,19 @@ export default UserInfo = props => {
             <ConfirmationWindow
                 message="Você chegou ao endereço do passageiro e deseja seguir para o destino?"
                 isVisible={isStartRideVisible}
-                confirm={() => console.log("isStartRideVisible")}
+                confirm={() => { props.startRide(); setIsStartRideVisible(!isStartRideVisible); }}
                 dismiss={() => setIsStartRideVisible(!isStartRideVisible)} />
 
             <ConfirmationWindow
                 message="A parada foi realizada e deseja prosseguir para o destino final?"
                 isVisible={isMakeWaypointVisible}
-                confirm={() => console.log("isMakeWaypointVisible")}
+                confirm={() => { props.makeWaypoint(); setIsMakeWaypointVisible(!isMakeWaypointVisible); }}
                 dismiss={() => setIsMakeWaypointVisible(!isMakeWaypointVisible)} />
 
             <ConfirmationWindow
                 message="Deseja encerrar a corrida?"
                 isVisible={isEndRideVisible}
-                confirm={() => console.log("isEndRideVisible")}
+                confirm={() => { props.endRide(); setIsEndRideVisible(!isEndRideVisible) }}
                 dismiss={() => setIsEndRideVisible(!isEndRideVisible)} />
 
             <ConfirmationWindow
@@ -123,13 +137,12 @@ const styles = StyleSheet.create({
     infoWrapper: {
         flex: 2,
         alignItems: 'flex-start',
-        marginTop: 12,
         justifyContent: 'space-between'
     },
     buttonsRow: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         width: '100%',
-        marginVertical: 12
+        marginBottom: 12
     }
 });
