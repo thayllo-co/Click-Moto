@@ -10,7 +10,7 @@ import TermsOfUse from '../components/pages/t01-terms-of-use';
 import AddProfileInfo from '../components/pages/t02-add-profile-info';
 import RegisterMotorcycle from '../components/pages/t03-register-motorcycle';
 
-import { ADMIN_ROLE, DRIVER_ROLE, PASSENGER_ROLE } from '../utils/constants';
+import { USER_ROLE } from '../utils/constants';
 import AdminNavigationStack from './admin';
 import PassengerNavigationStack from './passenger';
 import DriverNavigationStack from './driver';
@@ -37,7 +37,7 @@ export default AppNavigationStack = () => {
     useEffect(() => {
         messagingRequestPermission();
         const subscriber = authOnAuthStateChanged(
-            user => { dispatch(checkUserData(user)); messagingSaveUserToken(); setInitializing(false); },
+            user => { dispatch(checkUserData(user, () => setInitializing(false))); messagingSaveUserToken(); },
             () => { dispatch(userLogout()); setInitializing(false); }
         );
         messagingHandleTokenUpdates();
@@ -74,7 +74,7 @@ export default AppNavigationStack = () => {
         );
     }
 
-    if (user?.uid && user?.role && user?.name && user?.role == DRIVER_ROLE && !user?.motorcycle) {
+    if (user?.uid && user?.role && user?.name && user?.role == USER_ROLE.DRIVER && !user?.motorcycle) {
         return (
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -84,15 +84,15 @@ export default AppNavigationStack = () => {
         );
     }
 
-    if (user?.uid && user?.name && user?.role == PASSENGER_ROLE) {
+    if (user?.uid && user?.name && user?.role == USER_ROLE.PASSENGER) {
         return (<PassengerNavigationStack />);
     }
 
-    if (user?.uid && user?.name && user?.motorcycle && user?.role == DRIVER_ROLE) {
+    if (user?.uid && user?.name && user?.motorcycle && user?.role == USER_ROLE.DRIVER) {
         return (<DriverNavigationStack />);
     }
 
-    if (user?.uid && user?.name && user?.role == ADMIN_ROLE) {
+    if (user?.uid && user?.name && user?.role == USER_ROLE.ADMIN) {
         return (<AdminNavigationStack />);
     }
 };

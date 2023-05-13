@@ -9,14 +9,13 @@ import Support from '../components/pages/t06-support';
 import SendMessage from '../components/pages/t07-send-message';
 import PrivacyPolicies from '../components/pages/t01-privacy-policies';
 import TermsOfUse from '../components/pages/t01-terms-of-use';
-import Settings from '../components/pages/t08-settings';
-
-import { log } from '../utils/logging';
+import Settings from '../components/pages/t08-settings';;
 
 const Stack = createNativeStackNavigator();
 
 
 export default PassengerNavigationStack = () => {
+
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>

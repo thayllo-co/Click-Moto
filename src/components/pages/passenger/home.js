@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundMap from '../../templates/background-map';
+import BackgroundMap from '../templates/background-map';
 import IconButton from '../../molecules/icon-button';
 import Menu from '../../organisms/menu';
 import RideType from '../../organisms/ride-type';
@@ -22,7 +22,7 @@ import {
 } from '../../../store/actions/ride';
 import { uploadUserData } from '../../../store/actions/user';
 import { startWatchingOnlineDrivers, stopWatchingOnlineDrivers } from '../../../store/actions/online-drivers';
-import { RIDE_STATUS, USER_STATUS } from '../../../utils/constants';
+import { STATUS_OPTIONS } from '../../../utils/constants';
 import { log } from '../../../utils/logging';
 
 
@@ -40,11 +40,11 @@ export default Home = props => {
     const [isRideTypeVisible, setIsRideTypeVisible] = useState(false);
 
     useEffect(() => {
-        if (user?.status === USER_STATUS.IDLE) {
+        if (user?.status === STATUS_OPTIONS.IDLE) {
             dispatch(startWatchingOnlineDrivers());
         }
         if (user?.currentRide) {
-            dispatch(startWatchingChangesOnRide( user?.currentRide));
+            dispatch(startWatchingChangesOnRide(user?.currentRide));
         }
         return () => {
             dispatch(stopWatchingOnlineDrivers());
@@ -57,7 +57,7 @@ export default Home = props => {
         <BackgroundMap>
 
             {/* menu */}
-            {((user?.status == USER_STATUS.IDLE && !rideDraft) || user?.status == USER_STATUS.ONGOING) &&
+            {!rideDraft &&
                 <IconButton light size="xs"
                     source={!isMenuVisible ? menuIcon : closeIcon}
                     style={styles.menuIconWrapper}
@@ -72,7 +72,7 @@ export default Home = props => {
                     dismiss={() => setIsMenuVisible(false)} />}
 
             {/* inicia a solicitação de corrida e janela de selecionar o tipo */}
-            {(user?.status == USER_STATUS.IDLE && !rideDraft) &&
+            {(user?.status == STATUS_OPTIONS.IDLE && !rideDraft) &&
                 <IconButton light size="md"
                     source={motoIcon}
                     style={styles.motoIconWrapper}
@@ -96,30 +96,35 @@ export default Home = props => {
                     nextAction={changeValue => dispatch(updateRideDraft({ changeValue }))} />}
 
             {/* confirmação final */}
-            {(user?.status == USER_STATUS.IDLE && rideDraft?.ridePrice && rideDraft?.isRidePriceConfirmed && rideDraft?.changeValue) &&
+            {(user?.status == STATUS_OPTIONS.IDLE && rideDraft?.ridePrice && rideDraft?.isRidePriceConfirmed && rideDraft?.changeValue) &&
                 <FinalConfirmation
                     backAction={() => dispatch(deleteRideDraft())}
-                    nextAction={() => dispatch(createNewRideRequest(user?.uid, rideDraft))}
+                    nextAction={() => dispatch(createNewRideRequest(user, rideDraft))}
                     noOnlineDrivers={onlineDrivers?.length > 0 ? false : true}
                     ride={rideDraft} />}
 
             {/* procurando motoristas */}
-            {(rideOngoing?.status == RIDE_STATUS.SEARCHING || rideOngoing?.status == RIDE_STATUS.CREATED) &&
+            {(rideOngoing?.status == STATUS_OPTIONS.SEARCHING || rideOngoing?.status == STATUS_OPTIONS.CREATED) &&
                 <SearchingDrivers
                     cancel={() => dispatch(processPassengerCancellation(user?.uid, rideOngoing))}
                     driversSearchInfo={rideOngoing?.info || "Carregando dados..."} />}
 
             {/* informações do usuário */}
-            {(rideOngoing?.status == RIDE_STATUS.PICKUP || rideOngoing?.status == RIDE_STATUS.ONGOING) &&
+            {(rideOngoing?.itinerary && (user?.status == STATUS_OPTIONS.PICKUP || user?.status == STATUS_OPTIONS.ONGOING)) &&
                 <UserInfo rideOngoing={rideOngoing} userRole={user?.role} />}
 
             {/* avaliação da corrida */}
-            {(rideOngoing?.status == RIDE_STATUS.DONE) &&
+            {(user?.status == STATUS_OPTIONS.DONE) &&
                 <RatingForm
-                    nextAction={rating => dispatch(sendRideRating(user?.uid, user?.currentRide, rating))}
+                    nextAction={rating => {
+                        dispatch(stopWatchingChangesOnRide(user?.currentRide));
+                        dispatch(sendRideRating(user?.uid, user?.currentRide, rating));
+                        dispatch(startWatchingOnlineDrivers());
+                    }}
                     dismiss={() => {
                         dispatch(stopWatchingChangesOnRide(user?.currentRide));
-                        dispatch(uploadUserData(user?.uid, { status: USER_STATUS.IDLE, currentRide: null }));
+                        dispatch(uploadUserData(user?.uid, { status: STATUS_OPTIONS.IDLE, currentRide: null }));
+                        dispatch(startWatchingOnlineDrivers());
                     }} />}
 
         </BackgroundMap>

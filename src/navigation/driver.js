@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Welcome from '../components/pages/t04-welcome';
 import Home from '../components/pages/driver/home';
@@ -14,15 +13,10 @@ import Settings from '../components/pages/t08-settings';
 import VerificationInfo from '../components/pages/driver/verification-info';
 import Earnings from '../components/pages/driver/earnigs';
 
-import { log } from '../utils/logging';
-
 const Stack = createNativeStackNavigator();
 
 
 export default DriverNavigationStack = () => {
-
-    const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
 
     return (
         <NavigationContainer>

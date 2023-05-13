@@ -5,7 +5,7 @@ import Text from './text';
 import colors from '../../theme/colors';
 
 
-export const TYPE = {
+export const TT = {
     SUCCESS: 'success',
     INFO: 'info',
     ERROR: 'error'
@@ -15,13 +15,13 @@ const CustomToast = ({ text1, type }) => {
 
     let background;
     switch (type) {
-        case TYPE.SUCCESS:
+        case TT.SUCCESS:
             background = colors.success;
             break;
-        case TYPE.INFO:
+        case TT.INFO:
             background = colors.primary;
             break;
-        case TYPE.ERROR:
+        case TT.ERROR:
             background = colors.danger;
             break;
         default:

@@ -5,7 +5,7 @@ import BackgroundDefault from '../templates/background-default';
 import Header from '../molecules/header';
 import ProfileInfoForm from '../organisms/profile-info-form';
 import { uploadUserData } from '../../store/actions/user';
-import { USER_STATUS } from '../../utils/constants';
+import { STATUS_OPTIONS } from '../../utils/constants';
 
 
 export default AddProfileInfo = props => {
@@ -16,7 +16,7 @@ export default AddProfileInfo = props => {
 
     const handleSubmitData = info => {
         const rating = 5;
-        const status = USER_STATUS.IDLE;
+        const status = STATUS_OPTIONS.IDLE;
         dispatch(uploadUserData(uid, { ...info, rating, status }));
     }
 
@@ -29,4 +29,4 @@ export default AddProfileInfo = props => {
 
         </BackgroundDefault >
     );
-}
+};

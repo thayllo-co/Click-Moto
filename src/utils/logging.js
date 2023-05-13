@@ -13,11 +13,8 @@ const config = {
         success: 2,
         error: 3,
     },
-    severity: "debug",
-    // severity: __DEV__ ? "debug" : "error",
-    // transport: consoleTransport,
-    transport: [consoleTransport, fileAsyncTransport],
-    // transport: __DEV__ ? consoleTransport : fileAsyncTransport,
+    severity: (__DEV__) ? "debug" : "info",
+    transport: (__DEV__) ? [consoleTransport, fileAsyncTransport] : fileAsyncTransport,
     transportOptions: {
         colors: {
             info: "yellowBright",
@@ -35,6 +32,7 @@ const config = {
     enabled: true
 };
 
+export const log = logger.createLogger(config);
 
 export const checkLogsFolder = async () => {
     try {
@@ -44,7 +42,7 @@ export const checkLogsFolder = async () => {
             log.info("📝 Making Directory...");
             await RNFS.mkdir(logsPath);
         }
-        log.success("📝 checkLogsFolder() ", logsFolderExists);
+        log.success("📝 checkLogsFolder()");
     } catch (error) {
         log.error("📝 checkLogsFolder() ", error);
     }
@@ -62,6 +60,4 @@ export const zipLogs = async () => {
         log.error("📝 zipLogs() ", error);
         return "";
     }
-}
-
-export const log = logger.createLogger(config);
+};

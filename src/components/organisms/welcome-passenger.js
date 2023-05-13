@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Text from '../atoms/text';
@@ -15,7 +14,7 @@ export default WelcomePassenger = props => {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         padding: 12
     }
 });

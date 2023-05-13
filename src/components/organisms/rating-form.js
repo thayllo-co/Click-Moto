@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 
-import Card from '../templates/card';
+import Card from './templates/card';
 import Text from '../atoms/text';
 import Button from '../atoms/button';
 
@@ -18,7 +18,7 @@ export default RatingForm = props => {
 
                 <Text light title center bold size="xl" value="Obrigado 💛!" />
 
-                <Text light title center size="md" value="Avaliação da sua viagem:" />
+                <Text light title center size="md" value="Avaliação da sua corrida:" />
 
                 <AirbnbRating
                     count={5}

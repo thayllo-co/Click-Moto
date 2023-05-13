@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
@@ -6,7 +5,7 @@ import Window from '../templates/window';
 import IconButton from '../molecules/icon-button';
 import cameraIcon from '../../assets/images/camera.png';
 import galleryIcon from '../../assets/images/gallery.png';
-import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { ToastMessage, TT } from '../atoms/toast-message';
 import { log } from '../../utils/logging';
 
 const PHOTO_PICKER_OPTIONS = {
@@ -36,7 +35,7 @@ export default PhotoPicker = props => {
                 props.handleSubmitPhoto(image.path);
             })
             .catch((error) => {
-                ToastMessage("⚠️ Ocorreu um erro ao selecionar a imagem", TYPE.ERROR);
+                ToastMessage("⚠️ Ocorreu um erro ao selecionar a imagem", TT.ERROR);
                 log.error("📸 pickFromGallery() ", error);
             });
     }
@@ -49,7 +48,7 @@ export default PhotoPicker = props => {
                 props.handleSubmitPhoto(image.path);
             })
             .catch((error) => {
-                ToastMessage("⚠️ Ocorreu um erro ao selecionar a imagem", TYPE.ERROR);
+                ToastMessage("⚠️ Ocorreu um erro ao selecionar a imagem", TT.ERROR);
                 log.error("📸 pickFromCamera() ", error);
             });
     };

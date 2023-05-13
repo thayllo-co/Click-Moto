@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 import InputForm from '../molecules/input-form';
 import Button from '../atoms/button';
+import Text from '../atoms/text';
+
 import { DDD_LENGTH, PHONE_LENGTH, VERIFICATION_CODE_LENGTH } from '../../utils/constants';
-import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { ToastMessage, TT } from '../atoms/toast-message';
+import Image from '../atoms/image';
 
 
 export default PhoneForm = props => {
@@ -20,7 +23,7 @@ export default PhoneForm = props => {
             props.handleSubmitPhone(ddd + phone);
             setIsVerificationCodeVisible(true);
         } else {
-            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TT.ERROR);
         }
     }
 
@@ -28,7 +31,7 @@ export default PhoneForm = props => {
         if (verificationCode) {
             props.handleSubmitCode(verificationCode);
         } else {
-            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TT.ERROR);
         }
     }
 
@@ -41,6 +44,10 @@ export default PhoneForm = props => {
 
     return (
         <View style={styles.container}>
+
+            <Image source={logo} style={styles.image} />
+
+            <Text light title center size="xs" value="Entre com seu telefone" />
 
             {!isVerificationCodeVisible &&
                 <Animatable.View animation={"bounceIn"} style={styles.phoneRow}>
@@ -103,8 +110,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     image: {
-        height: '40%',
-        marginBottom: '5%'
+        height: 250,
+        marginBottom: 20
     },
     phoneRow: {
         flexDirection: 'row',

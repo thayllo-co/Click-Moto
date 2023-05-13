@@ -1,4 +1,3 @@
-import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../theme/colors';
 import { selectSizeHelper } from '../../utils/fuctions';

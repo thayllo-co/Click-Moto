@@ -9,10 +9,10 @@ import { databaseUpdateUserToken } from './database';
 export const messagingRegisterApp = async () => {
     log.info("📨 messagingRegisterApp()");
     await messaging().registerDeviceForRemoteMessages();
-}
+};
 
 export const messagingDisplayNotification = async (title, body) => {
-    log.info("📨 messagingDisplayNotification() ", title, body);
+    log.info("📨 messagingDisplayNotification() ", { title, body });
     if (!title)
         title = "Nova mensagem!"
     if (!body)
@@ -29,10 +29,14 @@ export const messagingDisplayNotification = async (title, body) => {
         android: {
             channelId,
             smallIcon: 'ic_launcher_round',
-            sound: 'motorcycle' // Android < 8.0 (API level 26)
+            sound: 'motorcycle', // Android < 8.0 (API level 26)
+            pressAction: {
+                id: 'default',
+                launchActivity: 'default',
+            },
         },
     });
-}
+};
 
 export const messagingRequestPermission = async () => {
     log.info("📨 messagingRequestPermission()");
@@ -41,22 +45,22 @@ export const messagingRequestPermission = async () => {
         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
-        log.success("📨 messagingRequestPermission() ", authStatus);
+        log.success("📨 messagingRequestPermission() ", { authStatus });
     } else {
-        log.error("📨 messagingRequestPermission() ", authStatus);
+        log.error("📨 messagingRequestPermission() ", { authStatus });
     }
-}
+};
 
 export const messagingSaveUserToken = async () => {
     log.info("📨 messagingSaveUserToken()");
     try {
         const token = await messaging().getToken();
-        log.success("📨 messagingSaveUserToken() ", token);
+        log.success("📨 messagingSaveUserToken() ", { token });
         messagingUpdateUserTokenOnDatabase(token);
     } catch (error) {
         log.error("📨 messagingSaveUserToken() ", error);
     }
-}
+};
 
 export const messagingHandleTokenUpdates = async () =>
     messaging().onTokenRefresh(token => messagingUpdateUserTokenOnDatabase(token));
@@ -64,13 +68,14 @@ export const messagingHandleTokenUpdates = async () =>
 const messagingUpdateUserTokenOnDatabase = async (token) => {
     try {
         const userUID = auth().currentUser?.uid;
-        log.info("📨 messagingUpdateUserTokenOnDatabase() ", userUID);
+        log.info("📨 messagingUpdateUserTokenOnDatabase() ", { userUID });
         if (userUID) {
-            databaseUpdateUserToken(userUID, token );
+            log.success("📨 messagingUpdateUserTokenOnDatabase()");
+            databaseUpdateUserToken(userUID, token);
         } else {
             log.error("📨 messagingUpdateUserTokenOnDatabase() userUID is null");
         }
     } catch (error) {
         log.error("📨 messagingUpdateUserTokenOnDatabase() ", error);
     }
-}
+};

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { ToastMessage, TT } from '../atoms/toast-message';
 import Button from '../atoms/button';
 import InputForm from '../molecules/input-form';
 
@@ -19,7 +19,7 @@ export default MotorcycleForm = props => {
         if (brand && model && color && plate) {
             props.handleSubmitMotorcycle({ brand, model, color, plate });
         } else {
-            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TT.ERROR);
         }
     }
 
@@ -71,7 +71,7 @@ export default MotorcycleForm = props => {
                 <Button size="lg" onPress={validateForm} value="Próximo" />
 
             </View>
-            
+
         </View>
     );
 }

@@ -39,13 +39,12 @@ yarn ios
     + react-native@0.71.1
 + [Configuração do ambiente de desenvolvimento](https://reactnative.dev/docs/environment-setup)
 + Esqueleto do projeto adicionado
-    + Estrutura da pasta (atomização, navegação, loja redux, estilo e utilitários)
+    + Estrutura da pasta (atomização, navegação, redux, estilos e utilitários)
 + Adicionando navegação e tela de abertura
     + [Documentação](https://reactnative.dev/docs/navigation);
     + Comandos usados:
         ~~~bash  
-        yarn add @react-navigation/native @react-navigation/native-stack
-        yarn add react-native-screens react-native-safe-area-context
+        yarn add @react-navigation/native @react-navigation/native-stack react-native-screens react-native-safe-area-context
         ~~~
 + Adicionando componentes de interface do usuário de login
     + Comando usado:
@@ -105,9 +104,33 @@ yarn ios
 + Integração do fluxo de corrida com backend
     + Comando usado:
         ~~~bash  
-        yarn add 
+        yarn add @react-native-firebase/messaging @react-native-firebase/functions @notifee/react-native
         ~~~
     + Documentação:
         + [@react-native-firebase/messaging](https://rnfirebase.io/messaging/usage);
         + [@notifee/react-native](https://notifee.app/react-native/docs/integrations/fcm);
         + [@react-native-firebase/functions](https://rnfirebase.io/functions/usage);
+
+## Estrutura do projeto
+
+├── android                 # Código nativo do Android;
+├── ios                     # Código nativo do iOS;
+├── src                     # Código-fonte do do aplicativo;
+│   ├── assets              # Recursos estáticos;
+│   │   └──images           # Imagens usadas no aplicativo;
+│   ├── components          # Todos os componentes atomizados;
+│   │   ├── atoms           # Menor parte possível de componente;
+│   │   ├── molecules       # Composição dos átomos;
+│   │   ├── organisms       # Componentes mais complexos compostos por átomos e moléculas;
+│   │   └── pages           # Páginas navegáveis (telas);
+│   ├── navigation          # Inicialização, rotas e navegação condicional entre telas;
+│   ├── store               # Pacote de composição Redux;
+│   │   ├── actions         # Manipulação Redux locais e assíncronas (thunks);
+│   │   ├── reducers        # Manipulação estados imutavelmente;
+│   │   └── services        # Microsserviços (autentição, banco de dados, armazenamento, etc...);
+│   ├── theme               # Estilos de componentes;
+│   └── utils               # Funções e constantes;
+├── README.md               # Instruções do aplicativo, este é o arquivo que você está lendo;
+├── package.json            # Dependências e scripts;
+└── index.js                # Inicialização do aplicativo, tudo começa aqui;
+

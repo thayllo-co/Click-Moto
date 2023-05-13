@@ -1,28 +1,29 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, Text, View } from 'react-native';
-// import { styls } from '../styles';
-// import { convertTimestamtToDate } from '../utilities/functions';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+
+import Text from '../atoms/text';
+import Image from '../atoms/image';
+import colors from '../../theme/colors';
+import { convertTimestamtToDate } from '../../utils/fuctions';
+import locListIcon from '../../assets/images/location-list.png';
+
 
 export default RideListItem = props => (
-    <TouchableOpacity
-        style={styles.border}
-        // onPress={() => props.navigation.navigate('T29_ViagemRealizada')}
-        >
+    <TouchableOpacity style={styles.border}>
 
         <View style={styles.locationBlock}>
-            <View style={styles.adressRow}>
-                {/* <Image source={require('../img/location.png')} style={styles.icon} /> */}
-                {/* <Text numberOfLines={1} style={[styls.p4, { textAlign: 'left' }]}>{props.ride.itinerary[0].title}</Text> */}
-            </View>
-            <View style={styles.adressRow}>
-                {/* <Image source={require('../img/arrival.png')} style={styles.icon} /> */}
-                {/* <Text numberOfLines={1} style={[styls.p4, { textAlign: 'left' }]}>{props.ride.itinerary[props.ride.itinerary.length - 1].title}</Text> */}
-            </View>
+            {props?.ride?.itinerary?.length >= 2 &&
+                props?.ride?.itinerary?.map((data, index) =>
+                    <View key={index} style={styles.adressRow}>
+                        <Image source={locListIcon} style={styles.icon} />
+                        <Text paragraph light size="md" lines={1} value={data.title} />
+                    </View>
+                )
+            }
         </View>
 
         <View style={styles.dataBlock}>
-            {/* <Text style={[styls.p4, { flex: 1 }]}>{convertTimestamtToDate(props.ride.timestamp)}</Text> */}
-            {/* <Text style={[styls.p3, { flex: 1 }]}>R$ {props.ride.rideValue}</Text> */}
+            <Text paragraph highlight size="md" lines={1} value={convertTimestamtToDate(props.ride.timestamp)} />
+            <Text paragraph highlight size="md" lines={1} value={`R$ ${props.ride.ridePrice}`} />
         </View>
 
     </TouchableOpacity>
@@ -55,8 +56,8 @@ const styles = StyleSheet.create({
     dataBlock: {
         flex: 1,
         alignItems: 'flex-end',
-        alignContent: 'space-between',
+        justifyContent: 'space-around',
         flexDirection: 'column',
-        height: '100%'
+        backgroundColor: colors.backgroundDefault
     }
 });

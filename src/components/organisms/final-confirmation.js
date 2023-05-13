@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 
-import Card from '../templates/card';
+import Card from './templates/card';
 import Text from '../atoms/text';
 import Button from '../atoms/button';
-import { RIDE_TYPE } from '../../utils/constants'; 
+import { RIDE_TYPE } from '../../utils/constants';
 
 
 export default FinalConfirmation = props => {

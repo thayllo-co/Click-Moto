@@ -28,4 +28,4 @@ export default RegisterMotorcycle = props => {
 
         </BackgroundDefault >
     );
-}
+};

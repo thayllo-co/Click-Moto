@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Text from '../atoms/text';
@@ -15,11 +14,11 @@ export default Footer = props => {
                 <Text paragraph highlight center link size="sm" value="Termos de Uso" onPress={() => props.navigation.navigate('TermsOfUse')} />
 
                 <Text paragraph light center size="sm" value=" e a " />
-                
+
                 <Text paragraph highlight center link size="sm" value="Política de Privacidade" onPress={() => props.navigation.navigate('PrivacyPolicies')} />
 
             </View>
-            
+
         </View>
     );
 }

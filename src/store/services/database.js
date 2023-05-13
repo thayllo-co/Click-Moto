@@ -1,27 +1,26 @@
 import database from '@react-native-firebase/database';
 
-import { ToastMessage, TYPE } from '../../components/atoms/toast-message';
-import { USER_STATUS } from '../../utils/constants';
+import { STATUS_OPTIONS } from '../../utils/constants';
 import { log } from '../../utils/logging';
 
-
 const DATABASE_TYPE = { CREATE: "CREATE", READ: "READ", UPDATE: "UPDATE", DELETE: "DELETE", WATCH: "WATCH", DISWATCH: "DISWATCH" };
-const environment = process.env.NODE_ENV; // const env = (__DEV__) ? "dev" : "prod";
+const environment = (__DEV__) ? "dev" : "prod";
 const DB_USERS_PATH = "/users/";
 const DB_ONLINE_DRIVERS_PATH = "/onlineDrivers/";
 const DB_RIDES_PATH = "/rides/";
 
-const callDatabase = (requestType, databasePath, data) => { // data também usado como watchCallback
-    log.info("🔥 callDatabase(" + requestType + ":" + databasePath + ")");
+
+const callDatabase = (requestType, databasePath, dataOrCallback) => {
+    log.info("🔥 callDatabase(" + requestType + ":" + environment + databasePath + ")");
     switch (requestType) {
         case DATABASE_TYPE.CREATE:
-            return database().ref(environment + databasePath).set(data);
+            return database().ref(environment + databasePath).set(dataOrCallback);
 
         case DATABASE_TYPE.READ:
             return database().ref(environment + databasePath).once('value');
 
         case DATABASE_TYPE.UPDATE:
-            return database().ref(environment + databasePath).update(data);
+            return database().ref(environment + databasePath).update(dataOrCallback);
 
         case DATABASE_TYPE.DELETE:
             return database().ref(environment + databasePath).remove();
@@ -30,14 +29,13 @@ const callDatabase = (requestType, databasePath, data) => { // data também usad
             return database().ref(environment + databasePath)
                 .on('value', snapshot => {
                     if (snapshot.exists())
-                        data(snapshot.val());
+                        dataOrCallback(snapshot.val());
                     else
-                        data(null);
+                        dataOrCallback(null);
                 });
 
         case DATABASE_TYPE.DISWATCH:
-            return database().ref(environment + databasePath)
-                .off('value', () => data());
+            return database().ref(environment + databasePath).off();
 
         default:
             return null;
@@ -45,35 +43,29 @@ const callDatabase = (requestType, databasePath, data) => { // data também usad
 }
 
 export const databaseReadUserData = async uid => {
-    ToastMessage("Verificando dados 💾", TYPE.INFO);
     log.info("🔥 databaseReadUserData()");
     try {
         const response = await callDatabase(DATABASE_TYPE.READ, DB_USERS_PATH + uid, null);
-        ToastMessage('Dados verificados! ✅', TYPE.SUCCESS);
         log.success("🔥 databaseReadUserData() ", response);
         const user = response.val();
         if (user) {
             return { isSuccessful: true, user };
         } else {
-            return { isSuccessful: true };
+            return { isSuccessful: false };
         }
     } catch (error) {
-        ToastMessage("⚠️ Ocorreu um erro ao ler os dados no banco de dados", TYPE.ERROR);
         log.error("🔥 databaseReadUserData() ", error);
         return { isSuccessful: false };
     }
 }
 
 export const databaseUpdateUserData = async (uid, data) => {
-    ToastMessage("Salvando tudo no banco de dados 💾", TYPE.INFO);
     log.info("🔥 databaseUpdateUserData()");
     try {
         await callDatabase(DATABASE_TYPE.UPDATE, DB_USERS_PATH + uid, data);
-        ToastMessage('Dados salvos com sucesso! ✅', TYPE.SUCCESS);
         log.success("🔥 databaseUpdateUserData()");
         return { isSuccessful: true };
     } catch (error) {
-        ToastMessage("⚠️ Ocorreu um erro ao atualizar os dados no banco de dados", TYPE.ERROR);
         log.error("🔥 databaseUpdateUserData() ", error);
         return { isSuccessful: false };
     }
@@ -130,9 +122,16 @@ export const databaseStartWatchingOnlineDrivers = async watchCallback => {
     return callDatabase(DATABASE_TYPE.WATCH, DB_ONLINE_DRIVERS_PATH, watchCallback);
 }
 
-export const databaseStopWatchingOnlineDrivers = async watchCallback => {
+export const databaseStopWatchingOnlineDrivers = async () => {
     log.info("🔥 databaseStopWatchingOnlineDrivers()");
-    return callDatabase(DATABASE_TYPE.DISWATCH, DB_ONLINE_DRIVERS_PATH, watchCallback);
+    try {
+        await callDatabase(DATABASE_TYPE.DISWATCH, DB_ONLINE_DRIVERS_PATH, null);
+        log.success("🔥 databaseStopWatchingOnlineDrivers()");
+        return { isSuccessful: true };
+    } catch (error) {
+        log.error("🔥 databaseStopWatchingOnlineDrivers() ", error);
+        return { isSuccessful: false };
+    }
 }
 
 export const databaseStartWatchingChangesOnRide = async (rideUID, watchCallback) => {
@@ -140,9 +139,16 @@ export const databaseStartWatchingChangesOnRide = async (rideUID, watchCallback)
     return callDatabase(DATABASE_TYPE.WATCH, DB_RIDES_PATH + rideUID, watchCallback);
 }
 
-export const databaseStopWatchingChangesOnRide = async (rideUID, watchCallback) => {
+export const databaseStopWatchingChangesOnRide = async rideUID => {
     log.info("🔥 databaseStopWatchingChangesOnRide()");
-    return callDatabase(DATABASE_TYPE.DISWATCH, DB_RIDES_PATH + rideUID, watchCallback);
+    try {
+        await callDatabase(DATABASE_TYPE.DISWATCH, DB_RIDES_PATH + rideUID, null);
+        log.success("🔥 databaseStopWatchingChangesOnRide()");
+        return { isSuccessful: true };
+    } catch (error) {
+        log.error("🔥 databaseStopWatchingChangesOnRide() ", error);
+        return { isSuccessful: false };
+    }
 }
 
 export const databaseGetRideOngoing = async rideUID => {
@@ -161,7 +167,7 @@ export const databaseGetRideOngoing = async rideUID => {
 export const databaseStartRideOngoing = async rideUID => {
     log.info("🔥 databaseStartRideOngoing()");
     try {
-        await callDatabase(DATABASE_TYPE.UPDATE, DB_RIDES_PATH + rideUID, { status: USER_STATUS.ONGOING });
+        await callDatabase(DATABASE_TYPE.UPDATE, DB_RIDES_PATH + rideUID, { status: STATUS_OPTIONS.ONGOING });
         log.success("🔥 databaseStartRideOngoing()");
         return { isSuccessful: true };
     } catch (error) {
@@ -185,11 +191,33 @@ export const databaseUpdateCurrentRideLocation = async (rideUID, currentLocation
 export const databaseCompleteRideWaypoint = async rideUID => {
     log.info("🔥 databaseCompleteRideWaypoint()");
     try {
-        await callDatabase(DATABASE_TYPE.UPDATE, DB_USERS_PATH + rideUID, { waypoints: USER_STATUS.DONE });
+        await callDatabase(DATABASE_TYPE.UPDATE, DB_RIDES_PATH + rideUID, { waypoints: STATUS_OPTIONS.DONE });
         log.success("🔥 databaseCompleteRideWaypoint()");
         return { isSuccessful: true };
     } catch (error) {
         log.error("🔥 databaseCompleteRideWaypoint() ", error);
+        return { isSuccessful: false };
+    }
+}
+
+export const databaseGetAllRidesDetails = async uid => {
+    log.info("🔥 databaseGetAllRidesDetails()");
+    try {
+        const response = await callDatabase(DATABASE_TYPE.READ, DB_USERS_PATH + uid + "/rides", null);
+        log.success("🔥 databaseGetAllRidesDetails()");
+        const rides = response.val();
+        let ridesDetails = [];
+        if (rides) {
+            for (var i in rides) {
+                const rideUID = rides[i]?.rideUID;
+                const fullRide = await callDatabase(DATABASE_TYPE.READ, DB_RIDES_PATH + rideUID, null);
+                const { itinerary, ridePrice, timestamp } = fullRide.val();
+                ridesDetails.push({ itinerary, ridePrice, timestamp });
+            }
+        }
+        return { isSuccessful: true, rides: ridesDetails };
+    } catch (error) {
+        log.error("🔥 databaseGetAllRidesDetails() ", error);
         return { isSuccessful: false };
     }
 }

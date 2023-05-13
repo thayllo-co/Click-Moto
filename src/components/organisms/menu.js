@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import Card from '../templates/card';
+import Card from './templates/card';
 import Image from '../atoms/image';
 import Text from '../atoms/text';
 import IconButton from '../molecules/icon-button';

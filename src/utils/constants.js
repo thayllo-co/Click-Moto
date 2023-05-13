@@ -9,9 +9,11 @@ export const EMAIL_LENGTH = 100;
 export const CPF_LENGTH = 14;
 export const BIRTH_LENGTH = 10;
 
-export const ADMIN_ROLE = 'admin';
-export const DRIVER_ROLE = 'driver';
-export const PASSENGER_ROLE = 'passenger';
+export const USER_ROLE = {
+    ADMIN: 'admin',
+    DRIVER: 'driver',
+    PASSENGER: 'passenger'
+};
 
 export const SIZES = {
     XS: "xs", // 20%
@@ -39,19 +41,11 @@ export const MAXIMUM_LOCATIONS_PER_RIDE = 3;
 
 export const GOOGLE_MAPS_API_KEY = "AIzaSyB6Qldfl0Acu0opoocZYu4p6a3KImV6IJo";
 
-export const USER_STATUS = {
+export const STATUS_OPTIONS = {
     IDLE: "IDLE",
     DRAFT: "DRAFT",
     SEARCHING: "SEARCHING",
-    CANCELED: "CANCELED",
-    PICKUP: "PICKUP",
-    ONGOING: "ONGOING",
-    DONE: "DONE",
-};
-
-export const RIDE_STATUS = {
     CREATED: "CREATED",
-    SEARCHING: "SEARCHING",
     CANCELED: "CANCELED",
     PICKUP: "PICKUP",
     ONGOING: "ONGOING",

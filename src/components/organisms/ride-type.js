@@ -4,7 +4,7 @@ import Window from '../templates/window';
 import IconButton from '../molecules/icon-button';
 import packageIcon from '../../assets/images/package.png';
 import passengerIcon from '../../assets/images/passenger.png';
-import { RIDE_TYPE } from '../../utils/constants'; 
+import { RIDE_TYPE } from '../../utils/constants';
 
 
 export default RideType = props => {

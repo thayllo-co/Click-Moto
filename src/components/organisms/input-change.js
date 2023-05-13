@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import Card from '../templates/card';
+import Card from './templates/card';
 import Text from '../atoms/text';
 import InputForm from '../molecules/input-form';
 import Button from '../atoms/button';
@@ -32,7 +32,6 @@ export default InputChange = props => {
                         getValue={setChangeValue}
                         center
                         size="sm"
-                        autoFocus={true}
                         masked
                         type={'custom'}
                         options={{ mask: '999.99' }} />

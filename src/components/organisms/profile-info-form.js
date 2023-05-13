@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,7 +6,7 @@ import InputForm from '../molecules/input-form';
 import PhotoForm from '../molecules/photo-form';
 import Button from '../atoms/button';
 import { BIRTH_LENGTH, CPF_LENGTH, EMAIL_LENGTH, MAX_INPUT_LINE_LENGTH, MIN_INPUT_LENGTH } from '../../utils/constants';
-import { ToastMessage, TYPE } from '../atoms/toast-message';
+import { ToastMessage, TT } from '../atoms/toast-message';
 import PhotoPicker from './photo-picker';
 import { saveUserProfilePhoto } from '../../store/actions/user';
 
@@ -30,21 +30,17 @@ export default LoginForm = props => {
         if (name && surname && email && photoURL && cpf && birthDate) {
             props.handleSubmitData({ name, surname, email, photoURL, cpf, birthDate });
         } else {
-            ToastMessage("Preencha os dados corretamente para continuar.", TYPE.ERROR);
+            ToastMessage("Preencha os dados corretamente para continuar.", TT.ERROR);
         }
     }
-
-    const handleSubmitPhoto = photoPath => {
-        dispatch(saveUserProfilePhoto(uid, photoPath));
-    }
-
 
     return (
         <View style={styles.container}>
 
             <PhotoForm photoURL={photoURL} openPhotoPicker={togglePhotoPicker} />
 
-            <PhotoPicker isVisible={isPhotoPickerVisible} toggler={togglePhotoPicker} handleSubmitPhoto={handleSubmitPhoto} />
+            <PhotoPicker isVisible={isPhotoPickerVisible} toggler={togglePhotoPicker}
+                handleSubmitPhoto={photoPath => dispatch(saveUserProfilePhoto(uid, photoPath))} />
 
             <InputForm
                 label="Nome"
