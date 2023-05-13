@@ -113,6 +113,7 @@ yarn ios
 
 ## Estrutura do projeto
 
+```sh
 ├── android                 # Código nativo do Android;
 ├── ios                     # Código nativo do iOS;
 ├── src                     # Código-fonte do do aplicativo;
@@ -133,4 +134,4 @@ yarn ios
 ├── README.md               # Instruções do aplicativo, este é o arquivo que você está lendo;
 ├── package.json            # Dependências e scripts;
 └── index.js                # Inicialização do aplicativo, tudo começa aqui;
-
+```
