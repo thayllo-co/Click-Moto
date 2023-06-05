@@ -5,6 +5,8 @@ import { USER_ROLE } from '../../utils/constants';
 import Image from '../atoms/image';
 import IconButton from '../molecules/icon-button';
 import Button from '../atoms/button';
+import logo from '../../assets/images/logo.png';
+import attach from '../../assets/images/attach.png';
 
 
 export default WelcomeUser = props => {
@@ -13,7 +15,7 @@ export default WelcomeUser = props => {
 
             <Image source={logo} style={styles.image} />
 
-            {(role == USER_ROLE.PASSENGER) &&
+            {(props.role == USER_ROLE.PASSENGER) &&
                 <Text title light center size="md" value="Obrigado pelo cadastro, entre e aproveite nossos serviços 🛵💨" />}
 
             {(props.role == USER_ROLE.DRIVER) &&

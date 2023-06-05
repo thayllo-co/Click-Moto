@@ -2,8 +2,8 @@ import React from 'react';
 import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import colors from '../../theme/colors';
-import LoadingIndicator from '../atoms/progress-indicator';
+import colors from '../../../theme/colors';
+import LoadingIndicator from '../../atoms/progress-indicator';
 
 
 export default BackgroundDefault = props => (

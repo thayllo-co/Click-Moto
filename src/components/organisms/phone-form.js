@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
+import Image from '../atoms/image';
+import logo from '../../assets/images/logo.png';
+import Text from '../atoms/text';
 import InputForm from '../molecules/input-form';
 import Button from '../atoms/button';
-import Text from '../atoms/text';
 
 import { DDD_LENGTH, PHONE_LENGTH, VERIFICATION_CODE_LENGTH } from '../../utils/constants';
 import { ToastMessage, TT } from '../atoms/toast-message';
-import Image from '../atoms/image';
 
 
 export default PhoneForm = props => {
@@ -106,11 +107,11 @@ export default PhoneForm = props => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        height: 250,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     image: {
         height: 250,
+        width: '100%',
         marginBottom: 20
     },
     phoneRow: {
@@ -121,7 +122,8 @@ const styles = StyleSheet.create({
     verificationCodeWrapper: {
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: 50
     },
     buttonsWrapper: {
         width: '100%'

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import TermsContent from '../organisms/terms-content';
 import Header from '../molecules/header';
 

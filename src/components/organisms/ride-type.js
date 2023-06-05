@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import Window from '../templates/window';
+import Window from './templates/window';
 import IconButton from '../molecules/icon-button';
 import packageIcon from '../../assets/images/package.png';
 import passengerIcon from '../../assets/images/passenger.png';

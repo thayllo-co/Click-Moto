@@ -1,9 +1,9 @@
 import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 
-import closeIcon from '../../assets/images/close.png';
-import Text from '../atoms/text';
-import IconButton from '../molecules/icon-button';
+import closeIcon from '../../../assets/images/close.png';
+import Text from '../../atoms/text';
+import IconButton from '../../molecules/icon-button';
 
 export default Window = props => {
     return (

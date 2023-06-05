@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import Button from '../atoms/button';
 import Text from '../atoms/text';
-import Window from '../templates/window';
+import Window from './templates/window';
 
 
 export default WorkingTimeConfirmation = props => {

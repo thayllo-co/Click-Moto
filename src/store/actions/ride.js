@@ -276,6 +276,7 @@ export const getAllRidesEarnings = userUID => async dispatch => {
             });
             dispatch(userUpdate({ isLoading: false, todaysRidesQuantity, todaysRidesValue, thisMonthRidesQuantity, thisMonthRidesValue, allRidesQuantity, allRidesValue }));
         }
+        dispatch(userUpdate({ isLoading: false }));
         log.success("⚛️ getAllRidesEarnings() ", rides);
         ToastMessage("Valores atualizados ✅", TT.SUCCESS);
     } else {

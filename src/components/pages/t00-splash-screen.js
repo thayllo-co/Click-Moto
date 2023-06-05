@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import SplashContent from '../organisms/splash-content';
 
 

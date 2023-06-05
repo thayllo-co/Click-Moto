@@ -5,6 +5,7 @@ import Text from '../atoms/text';
 
 import { USER_ROLE } from '../../utils/constants';
 import Image from '../atoms/image';
+import logo from '../../assets/images/logo.png';
 
 
 export default RoleForm = props => {
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        height: 250,
         justifyContent: 'space-evenly'
     },
     image: {
         height: 250,
+        width: '100%',
         marginBottom: 20
     }
 });

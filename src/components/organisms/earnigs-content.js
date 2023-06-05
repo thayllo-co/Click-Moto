@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 
-import Text from '../../atoms/text';
+import Text from '../atoms/text';
 
 export default EarningsContent = props => {
 

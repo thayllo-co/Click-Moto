@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Linking } from 'react-native';
 
 import Card from './templates/card';
@@ -7,12 +7,13 @@ import Button from '../atoms/button';
 import callIcon from '../../assets/images/call.png';
 import sosIcon from '../../assets/images/sos.png';
 import userIcon from '../../assets/images/user-photo.png';
-import ConfirmationWindow from '../templates/confirmation-window';
+import ConfirmationWindow from './confirmation-window';
 
 import { getTimeFromNumber } from '../../utils/fuctions';
 import { STATUS_OPTIONS, USER_ROLE } from '../../utils/constants';
 import IconButton from '../molecules/icon-button';
 import Image from '../atoms/image';
+import { log } from '../../utils/logging';
 
 
 export default UserInfo = props => {
@@ -23,6 +24,13 @@ export default UserInfo = props => {
     const [isCallUserVisible, setIsCallUserVisible] = useState(false);
     const [isCallEmergencyVisible, setIsCallEmergencyVisible] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        if (props?.userRole === USER_ROLE.PASSENGER)
+            setUserInfo(props?.rideOngoing?.driverInfo)
+        else if(props?.userRole === USER_ROLE.DRIVER)
+            setUserInfo(props?.rideOngoing?.passengerInfo)
+    }, []);
 
     return (
         <Card style={styles.cardWrapper}>

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import Text from '../atoms/text';
 
 
-export default PoliciyContent = props => {
+export default TermsContent = props => {
     return (
         <ScrollView style={styles.wrapper}>
             <Text paragraph light size="sm" value="Este instrumento contém os termos gerais e as condições de uso da plataforma Click Moto." />

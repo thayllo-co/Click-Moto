@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
-import Window from '../templates/window';
+import Window from './templates/window';
 import IconButton from '../molecules/icon-button';
 import cameraIcon from '../../assets/images/camera.png';
 import galleryIcon from '../../assets/images/gallery.png';

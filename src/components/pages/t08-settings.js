@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import Header from '../molecules/header';
 import { disconnectUser } from '../../store/actions/user';
 import SettingsOptions from '../organisms/settings-options';
@@ -17,7 +17,7 @@ export default Settings = props => {
 
             <Header navigationBack navigation={props.navigation} header="Configurações" />
 
-            <SettingsOptions disconnectUser={() => dispatch(disconnectUser())} />
+            <SettingsOptions user={user} disconnectUser={() => dispatch(disconnectUser())} />
 
         </BackgroundDefault>
     );

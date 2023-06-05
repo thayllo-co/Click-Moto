@@ -11,7 +11,7 @@ import PhotoPicker from './photo-picker';
 import { saveUserProfilePhoto } from '../../store/actions/user';
 
 
-export default LoginForm = props => {
+export default ProfileInfoForm = props => {
 
     const dispatch = useDispatch();
     const uid = useSelector(state => state.user?.uid);

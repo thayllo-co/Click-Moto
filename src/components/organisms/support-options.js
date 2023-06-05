@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Text from '../atoms/text';
 
 
-export default RidesHistory = props => {
+export default SupportOptions = props => {
 
     return (
         <View style={styles.optionsList}>
@@ -22,7 +22,7 @@ export default RidesHistory = props => {
 
             <Text light title center size="md"
                 value="Enviar Relatórios do App"
-                onPress={() => dispatch(upploadUserLogs(user?.uid))} />
+                onPress={props.sendLogs} />
 
         </View>
     );

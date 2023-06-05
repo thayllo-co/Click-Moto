@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import Header from '../molecules/header';
 import MotorcycleForm from '../organisms/motorcycle-form';
 import { uploadUserData } from '../../store/actions/user';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import Header from '../molecules/header';
 import { getAllRidesDetails } from '../../store/actions/ride';
 import RidesList from '../organisms/rides-list';

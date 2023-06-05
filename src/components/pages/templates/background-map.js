@@ -12,7 +12,7 @@ import MapImageMarker from '../../molecules/map-image-marker';
 import MapInputPlace from '../../molecules/map-input-place';
 import ConfirmPickupLocation from '../../organisms/confirm-pickup-location';
 import ManageRideItinerary from '../../organisms/manage-ride-itinerary';
-import compassIcon from '../../assets/images/compass.png';
+import compassIcon from '../../../assets/images/compass.png';
 
 import {
     mapsClearWatchLocation, mapsGetCurrentLocation, mapsGetLocationTitle,

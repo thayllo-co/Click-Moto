@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundDefault from '../../templates/background-default';
+import BackgroundDefault from '../templates/background-default';
 import Header from '../../molecules/header';
 import EarnigsContent from '../../organisms/earnigs-content';
 import { getAllRidesEarnings } from '../../../store/actions/ride';

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import Window from '../templates/window';
+import Window from './templates/window';
 import Image from '../atoms/image';
 import Text from '../atoms/text';
 import Button from '../atoms/button';

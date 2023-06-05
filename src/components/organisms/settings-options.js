@@ -12,15 +12,15 @@ export default SettingsOptions = props => {
     const [isLogoutConfirmationVisible, setIsLogoutConfirmationVisible] = useState(false);
 
     return (
-        <View isLoading={props?.isLoading}>
+        <View>
 
-            <Image source={props?.photoURL ? { uri: props?.photoURL } : userPhoto} style={styles.userPhoto} />
+            <Image source={props?.user?.photoURL ? { uri: props?.user?.photoURL } : userPhoto} style={styles.userPhoto} />
 
-            <Text light title center size="lg" value={props?.name + " " + props?.surname} />
+            <Text light title center size="lg" value={props?.user?.name + " " + props?.user?.surname} />
 
-            <Text light title center size="xs" value={props?.email} />
+            <Text light title center size="xs" value={props?.user?.email} />
 
-            <Text light title center size="xs" value={props?.phoneNumber} />
+            <Text light title center size="xs" value={props?.user?.phoneNumber} />
 
             <Text danger title center size="xs" value="Sair"
                 onPress={() => setIsLogoutConfirmationVisible(true)} />
@@ -36,7 +36,7 @@ export default SettingsOptions = props => {
 }
 
 const styles = StyleSheet.create({
-    propsPhoto: {
+    userPhoto: {
         width: 150,
         height: 150,
         alignSelf: 'center',

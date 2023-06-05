@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BackgroundDefault from '../templates/background-default';
+import BackgroundDefault from './templates/background-default';
 import Header from '../molecules/header';
 import { upploadUserLogs } from '../../store/actions/user';
 import SupportOptions from '../organisms/support-options';

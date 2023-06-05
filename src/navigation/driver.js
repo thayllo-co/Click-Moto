@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 
 import Welcome from '../components/pages/t04-welcome';
 import Home from '../components/pages/driver/home';
@@ -17,6 +18,8 @@ const Stack = createNativeStackNavigator();
 
 
 export default DriverNavigationStack = () => {
+
+    const user = useSelector(state => state.user);
 
     return (
         <NavigationContainer>
