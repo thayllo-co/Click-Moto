@@ -18,7 +18,7 @@ export default RoleForm = props => {
 
             <Button size="lg" onPress={() => props.handleSubmitRole(USER_ROLE.ADMIN)} value="Administrador" />
 
-            <Button size="lg" onPress={() => props.handleSubmitRole(USER_ROLE.DRIVER)} value="Motorista" />
+            {/* <Button size="lg" onPress={() => props.handleSubmitRole(USER_ROLE.DRIVER)} value="Motorista" /> */}
 
             <Button size="lg" onPress={() => props.handleSubmitRole(USER_ROLE.PASSENGER)} value="Passageiro" />
 
