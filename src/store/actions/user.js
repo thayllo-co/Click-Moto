@@ -3,6 +3,8 @@ import { databaseReadUserData, databaseUpdateUserData } from "../services/databa
 import { storageSaveUserlogs, storageSaveUserProfilePhoto } from "../services/storage";
 import { log } from "../../utils/logging";
 import { TT, ToastMessage } from "../../components/atoms/toast-message";
+import { USER_ROLE } from "../../utils/constants";
+import { leaveOnlineDrivers } from "./online-drivers";
 
 
 export const USER_LOGIN = 'USER_LOGIN';
@@ -45,10 +47,13 @@ export const confirmUserPhone = (confirmation, code) => async dispatch => {
     }
 };
 
-export const disconnectUser = () => async dispatch => {
-    log.info("⚛️ disconnectUser() ");
+export const disconnectUser = user => async dispatch => {
+    log.info("⚛️ disconnectUser() ", { user });
     ToastMessage("Saindo 🛵💨", TT.INFO);
     dispatch(userUpdate({ isLoading: true }));
+    if (user?.role === USER_ROLE.DRIVER) {
+        await dispatch(leaveOnlineDrivers(user?.uid));
+    }
     const response = await authSignOut();
     if (response.isSuccessful) {
         log.success("⚛️ disconnectUser()");
@@ -58,6 +63,18 @@ export const disconnectUser = () => async dispatch => {
         log.error("⚛️ disconnectUser()");
         ToastMessage("Ocorreu um erro ao desconectar ⚠️", TT.ERROR);
         dispatch(userUpdate({ isLoading: false }));
+    }
+};
+
+export const changeUserRole = user => async dispatch => {
+    log.info("⚛️ changeUserRole() ", { user });
+    ToastMessage("Atualizando seu perfil ✨", TT.INFO);
+    dispatch(userUpdate({ isLoading: true }));
+    if (user?.role === USER_ROLE.DRIVER) {
+        await dispatch(leaveOnlineDrivers(user?.uid));
+        dispatch(uploadUserData(user?.uid, { role: USER_ROLE.PASSENGER }));
+    } else if (user?.role === USER_ROLE.PASSENGER) {
+        dispatch(uploadUserData(user?.uid, { role: USER_ROLE.DRIVER }));
     }
 };
 

@@ -4,7 +4,7 @@ import { STATUS_OPTIONS } from '../../utils/constants';
 import { log } from '../../utils/logging';
 
 const DATABASE_TYPE = { CREATE: "CREATE", READ: "READ", UPDATE: "UPDATE", DELETE: "DELETE", WATCH: "WATCH", DISWATCH: "DISWATCH" };
-const environment = (__DEV__) ? "dev" : "prod";
+const environment = (__DEV__) ? "development" : "production";
 const DB_USERS_PATH = "/users/";
 const DB_ONLINE_DRIVERS_PATH = "/onlineDrivers/";
 const DB_RIDES_PATH = "/rides/";

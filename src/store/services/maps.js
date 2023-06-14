@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import { PERMISSIONS, request } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 
 import { GOOGLE_MAPS_API_KEY, LOCATION_OPTIONS } from '../../utils/constants';
 import { log } from '../../utils/logging';
@@ -30,6 +31,21 @@ const mapsVerifyPermission = response => {
     } else if (response === 'denied') {
         return false;
     }
+}
+
+export const mapsEnableDeviceLocation = callback => {
+    RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({
+        interval: 10000,
+        fastInterval: 5000,
+    })
+        .then((response) => {
+            log.info("🌎 enableDeviceLocation() ", { response });
+            callback(true);
+        })
+        .catch((error) => {
+            log.info("🌎 enableDeviceLocation() ", { error });
+            callback(false);
+        });
 }
 
 // LOCATION SERVICE 

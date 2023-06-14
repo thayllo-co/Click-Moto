@@ -11,9 +11,11 @@ import store from './src/store/store';
 import messaging from '@react-native-firebase/messaging';
 import { messagingDisplayNotification, messagingRegisterApp } from './src/store/services/messaging';
 import { saveNotification } from './src/store/actions/notifications';
+import { log } from './src/utils/logging';
 
 messagingRegisterApp();
 onNotificationReceived = async (message) => {
+    log.info("📨 onNotificationReceived() ", { message });
     messagingDisplayNotification(message?.notification?.title, message?.notification?.body);
     store.dispatch(saveNotification(message));
 };

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Welcome from '../components/pages/t04-welcome';
 import Home from '../components/pages/driver/home';
@@ -14,12 +14,28 @@ import Settings from '../components/pages/t08-settings';
 import VerificationInfo from '../components/pages/driver/verification-info';
 import Earnings from '../components/pages/driver/earnigs';
 
+import { updateOnlineDrivers } from '../store/actions/online-drivers';
+import { updateOngoingRideLocation } from '../store/actions/ride';
+import { STATUS_OPTIONS } from '../utils/constants';
+import { log } from '../utils/logging';
+
 const Stack = createNativeStackNavigator();
 
 
 export default DriverNavigationStack = () => {
 
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+
+    useEffect(() => {
+        log.info("DRIVER LOCATION CHANGED ", user?.currentLocation);
+        if (user?.isOnline && user?.status === STATUS_OPTIONS.IDLE) {
+            dispatch(updateOnlineDrivers(user?.uid, user?.currentLocation));
+        }
+        if (user?.currentRide && (user?.status === STATUS_OPTIONS.PICKUP || user?.status === STATUS_OPTIONS.ONGOING)) {
+            dispatch(updateOngoingRideLocation(user?.currentRide, user?.currentLocation));
+        }
+    }, [user?.currentLocation]);
 
     return (
         <NavigationContainer>

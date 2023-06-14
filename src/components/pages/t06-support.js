@@ -17,7 +17,7 @@ export default Support = props => {
 
             <Header navigationBack navigation={props.navigation} header="Central de Ajuda" />
 
-            <SupportOptions navigation={props.navigation} sendLogs={() => dispatch(upploadUserLogs(user?.uid))} />
+            <SupportOptions navigation={props.navigation} />
 
         </BackgroundDefault>
     );

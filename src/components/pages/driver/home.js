@@ -12,8 +12,8 @@ import RatingForm from '../../organisms/rating-form';
 import menuIcon from '../../../assets/images/menu.png';
 import closeIcon from '../../../assets/images/close.png';
 
-import { completeRideWaypoint, finishRide, getUpdatedRideOngoing, processDriverAcceptance, sendRideRating, startRideOngoing, updateOngoingRideLocation } from '../../../store/actions/ride';
-import { joinOnlineDrivers, leaveOnlineDrivers, updateOnlineDrivers } from '../../../store/actions/online-drivers';
+import { completeRideWaypoint, finishRide, getUpdatedRideOngoing, processDriverAcceptance, sendRideRating, startRideOngoing } from '../../../store/actions/ride';
+import { joinOnlineDrivers, leaveOnlineDrivers } from '../../../store/actions/online-drivers';
 import { STATUS_OPTIONS } from '../../../utils/constants';
 import { log } from '../../../utils/logging';
 import Button from '../../atoms/button';
@@ -40,20 +40,8 @@ export default Home = props => {
     }, []);
 
     useEffect(() => {
-        log.info("USER LOCATION CHANGED ", user?.currentLocation);
-        if (user?.isOnline && user?.status === STATUS_OPTIONS.IDLE) {
-            dispatch(updateOnlineDrivers(user?.uid, user?.currentLocation));
-        }
-        if (user?.currentRide && (user?.status === STATUS_OPTIONS.PICKUP || user?.status === STATUS_OPTIONS.ONGOING)) {
-            dispatch(updateOngoingRideLocation(user?.currentRide, user?.currentLocation));
-        }
-    }, [user?.currentLocation]);
-
-    useEffect(() => {
-        console.log("notifications: ", notifications);
         if (notifications && notifications?.data) {
-            const notificationData = JSON.parse(notifications.data.notification);
-            console.log("notificationData", notificationData);
+            const notificationData = JSON.parse(notifications?.data?.notification);
             if (notificationData.notificationType == "NEW_RIDE_REQUEST" && user?.status == STATUS_OPTIONS.IDLE) {
                 setNewRideFound(notificationData);
             }

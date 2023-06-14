@@ -29,7 +29,7 @@ export const LOCATION_OPTIONS = {
         ios: 'best',
     },
     enableHighAccuracy: true,
-    timeout: 2000
+    timeout: 5000
 };
 
 export const RIDE_TYPE = {

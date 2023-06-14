@@ -111,6 +111,14 @@ yarn ios
         + [@notifee/react-native](https://notifee.app/react-native/docs/integrations/fcm);
         + [@react-native-firebase/functions](https://rnfirebase.io/functions/usage);
 
++ Biblioteca adicionada para controle de localização no Android
+    + Comando usado:
+        ~~~bash  
+        yarn add react-native-android-location-enabler
+        ~~~
+    + Documentação:
+        + [react-native-android-location-enabler](https://github.com/Richou/react-native-android-location-enabler);
+
 ## Estrutura do projeto
 
 ```sh

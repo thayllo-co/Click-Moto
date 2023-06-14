@@ -15,7 +15,7 @@ import ManageRideItinerary from '../../organisms/manage-ride-itinerary';
 import compassIcon from '../../../assets/images/compass.png';
 
 import {
-    mapsClearWatchLocation, mapsGetCurrentLocation, mapsGetLocationTitle,
+    mapsClearWatchLocation, mapsEnableDeviceLocation, mapsGetCurrentLocation, mapsGetLocationTitle,
     mapsRequestLocationPermission, mapsStartLocationService, mapsWatchCurrentLocation
 } from '../../../store/services/maps';
 import { calculateRidePrice, deleteRideDraft, updateOngoingRide, updateRideDraft } from '../../../store/actions/ride';
@@ -31,6 +31,7 @@ export default BackgroundMap = props => {
 
     const mapRef = useRef(null);
     const [region, setRegion] = useState(null);
+    const [isDeviceLocationEnabled, setIsDeviceLocationEnabled] = useState(false);
 
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
@@ -45,15 +46,16 @@ export default BackgroundMap = props => {
     useEffect(() => {
         mapsStartLocationService();
         mapsRequestLocationPermission(updateMapsPermission);
+        mapsEnableDeviceLocation(setIsDeviceLocationEnabled);
         return () => mapsClearWatchLocation(user?.locationWatcherId);
     }, []);
 
     useEffect(() => {
-        if (user?.isMapsPermissionGranted) {
+        if (user?.isMapsPermissionGranted && isDeviceLocationEnabled) {
             mapsGetCurrentLocation(updateUserCurrentLocation);
             mapsWatchCurrentLocation(updateUserCurrentLocation, updateLocationWatcherId);
         }
-    }, [user?.isMapsPermissionGranted]);
+    }, [user?.isMapsPermissionGranted, isDeviceLocationEnabled]);
 
     useEffect(() => {
         if (user?.currentLocation && !rideDraft && user?.status == STATUS_OPTIONS.IDLE) {
@@ -65,10 +67,8 @@ export default BackgroundMap = props => {
         if (user?.status == STATUS_OPTIONS.IDLE && rideDraft == null)
             focusMapZoomOut();
         if (rideDraft?.isConfirmPickupLocationVisible) {
-            console.log("AAAAAAAAAAAAA");
             focusMapZoomIn();
         }
-
     }, [rideDraft]);
 
     useEffect(() => {
@@ -96,7 +96,7 @@ export default BackgroundMap = props => {
 
     focusMapOnDirections = () => {
         console.log("focusMapZoomIn");
-        mapRef.current?.fitToElements({ edgePadding: { right: 100, left: 100, top: 250, bottom: 350 } });
+        mapRef.current?.fitToElements({ edgePadding: { right: 200, left: 200, top: 500, bottom: 600 } });
     };
 
     handlePickupLocation = async () => {
@@ -304,16 +304,20 @@ export default BackgroundMap = props => {
                 <IconButton source={compassIcon} size="xs" style={styles.compassIcon}
                     onPress={() => mapsGetCurrentLocation(updateUserCurrentLocation)} />}
 
-            {(user?.isLoading || !user?.isMapsPermissionGranted) &&
+            {(user?.isLoading || !user?.isMapsPermissionGranted || !isDeviceLocationEnabled) &&
                 <View style={styles.loadingLayer}>
                     {(user?.isLoading) &&
                         <LoadingIndicator style={styles.loading} />}
-                    {(user?.isMapsPermissionGranted === false) &&
-                        <Text light title center bold size="md" value="⚠️ AVISO ⚠️" />}
-                    {(user?.isMapsPermissionGranted === false) &&
+                    {(user?.isMapsPermissionGranted !== true || !isDeviceLocationEnabled) &&
+                        <Text light title center bold size="md" value="⚠️ ATENÇÃO ⚠️" />}
+                    {(user?.isMapsPermissionGranted !== true) &&
                         <Text light title center size="xs" value="Você precisa conceder permissão de localização para continuar" />}
-                    {(user?.isMapsPermissionGranted === false) &&
-                        <Button size="md" onPress={() => mapsRequestLocationPermission(updateMapsPermission)} value="Tentar novamente" />}
+                    {(user?.isMapsPermissionGranted !== true) &&
+                        <Button size="md" onPress={() => mapsRequestLocationPermission(updateMapsPermission)} value="Conceder permissão" />}
+                    {!isDeviceLocationEnabled &&
+                        <Text light title center size="xs" value="Para continuar, você precisa ativar a localização do dispositivo" />}
+                    {!isDeviceLocationEnabled &&
+                        <Button size="md" onPress={() => mapsEnableDeviceLocation(setIsDeviceLocationEnabled)} value="Ativar localização" />}
                 </View>
             }
 

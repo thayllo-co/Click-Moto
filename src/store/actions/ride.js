@@ -106,7 +106,7 @@ export const processDriverAcceptance = (driver, ride) => async dispatch => {
         log.success("⚛️ processDriverAcceptance() ");
         ToastMessage("Corrida confirmada ✅", TT.SUCCESS);
         dispatch(createOngoingRide({ ...ride, currentLocation }));
-        dispatch(uploadUserData(uid, { status: STATUS_OPTIONS.PICKUP, currentRide: ride.id }));
+        dispatch(uploadUserData(uid, { status: STATUS_OPTIONS.PICKUP, currentRide: ride.id, isOnline: false }));
     } else {
         log.error("⚛️ processDriverAcceptance() ");
         ToastMessage("Não foi possível confirmar a corrida 😢", TT.ERROR);
@@ -204,7 +204,7 @@ export const finishRide = (rideUID, driverUID, passengerUID, currentLocation) =>
         log.success("⚛️ finishRide() ");
         ToastMessage("Corrida finalizada 📍", TT.SUCCESS);
         dispatch(deleteOngoingRide());
-        dispatch(uploadUserData(driverUID, { status: STATUS_OPTIONS.DONE }));
+        dispatch(uploadUserData(driverUID, { status: STATUS_OPTIONS.DONE, isOnline: true }));
     } else {
         log.error("⚛️ finishRide() ");
         ToastMessage("Ocorreu um erro ao finalizar corrida 😢", TT.ERROR);
