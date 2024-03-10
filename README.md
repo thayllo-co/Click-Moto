@@ -1,4 +1,5 @@
 # Click Moto 🛵💨
+App developed for the Engineering Junior Enterprise to meet the demand for motorcycle taxi driver rides.
 
 ## Tech Stack  
 **Client:** React Native 
